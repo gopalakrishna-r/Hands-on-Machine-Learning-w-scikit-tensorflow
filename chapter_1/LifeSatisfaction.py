@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import sklearn.linear_model
-from chapter_1 import CountryStatUtil
+from util import MLUtil
 import os
 
 # load the data
@@ -11,7 +11,7 @@ gdp_per_capita = pd.read_csv("../datasets/lifesat/gdp_per_capita.csv", thousands
                              na_values="n/a")
 
 # Prepare the data
-country_stats = CountryStatUtil.prepare_country_stats(oecd_bli, gdp_per_capita)
+country_stats = MLUtil.prepare_country_stats(oecd_bli, gdp_per_capita)
 X = np.c_[country_stats["GDP per capita"]]
 y = np.c_[country_stats["Life satisfaction"]]
 
