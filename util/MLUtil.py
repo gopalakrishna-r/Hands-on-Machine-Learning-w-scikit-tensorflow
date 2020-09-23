@@ -2,6 +2,7 @@ import pandas as pd
 import os
 import tarfile
 from six.moves import urllib
+import numpy as np
 
 import urllib.request
 
@@ -31,13 +32,6 @@ def prepare_country_stats(oecd_bli, gdp_per_capita):
 
 
 def fetch_housing_data(housing_url, housing_path):
-    # datapath = os.path.join("datasets", "lifesat", "")
-    # os.makedirs(datapath, exist_ok=True)
-    # csv_li = "oecd_bli_2015.csv"
-    # csv_gdp = "gdp_per_capita.csv"
-    # print("Downloading", csv_li, csv_gdp)
-    # urllib.request.urlretrieve(DOWNLOAD_ROOT + "datasets/lifesat/" + csv_li, datapath + csv_li)
-    # urllib.request.urlretrieve(DOWNLOAD_ROOT + "datasets/lifesat/" + csv_gdp, datapath + csv_li)
     if not os.path.isdir(housing_path):
         os.makedirs(housing_path)
     tgz_path = os.path.join(housing_path, "housing.tgz")
@@ -45,3 +39,27 @@ def fetch_housing_data(housing_url, housing_path):
     housing_tgz = tarfile.open(tgz_path)
     housing_tgz.extractall(path=housing_path)
     housing_tgz.close()
+
+
+def split_train_test(data, test_ratio):
+    np.random.seed(42)
+    shuffled_indices = np.random.permutation(len(data))
+    test_set_size = int(len(data) * test_ratio)
+    test_indices = shuffled_indices[:test_set_size]
+    train_indices = shuffled_indices[test_set_size:]
+    return data.iloc[train_indices], data.iloc[test_indices]
+
+
+from zlib import crc32
+
+
+# determine whether the test data instance's identifier falls within the ratio
+def test_set_check(identifier, test_ratio):
+    return crc32(np.int64(identifier)) ^ 0xfffffff < test_ratio * 2 ** 32
+
+
+def split_train_test_by_id(data, test_ratio, id_column):
+    ids = data[id_column]
+    in_test_set = ids.apply(lambda id_: test_set_check(id_, test_ratio))
+    print(in_test_set)
+    return data.iloc[~in_test_set], data.iloc[in_test_set]
