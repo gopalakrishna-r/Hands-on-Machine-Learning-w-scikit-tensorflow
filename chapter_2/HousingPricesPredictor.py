@@ -1,10 +1,8 @@
-import pandas as pd
-import os
-import numpy as np
-from util.MLUtil import *
 import matplotlib.pyplot as plt
 from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.model_selection import train_test_split
+
+from util.MLUtil import *
 
 pd.set_option('display.max_columns', None)
 
@@ -34,7 +32,7 @@ housing["income_cat"] = pd.cut(housing["median_income"],
 # housing["income_cat"].hist()
 # plt.show()
 
-# split the data into stratas
+# split the data into strata
 split = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
 
 for train_index, test_index in split.split(housing, housing["income_cat"]):
@@ -51,5 +49,46 @@ for set_ in (strat_test_set, strat_train_set):
 housing = strat_train_set.copy()
 
 # visualize the data
-housing.plot(kind="scatter", x="longitude", y="latitude")
-plt.show()
+
+# The radius of each circle represents the district’s population (option s), and the color
+# represents the price (option c). We will use a predefined color map (option cmap) called jet, which ranges from
+# blue(low values) to red (high prices)
+# housing.plot(kind="scatter", x="longitude", y="latitude", alpha=0.4, s=housing["population"] / 100,
+#              label="population", figsize=(10, 7), c="median_house_value", cmap=plt.get_cmap("jet"), colorbar="True",)
+# plt.legend()
+# plt.show()
+
+# from pandas.plotting import scatter_matrix
+# attributes = ["median_house_value", "median_income", "total_rooms", "housing_median_age"]
+# scatter_matrix(housing[attributes],figsize=(12,8))
+# plt.show()
+
+# plot median income against median house value
+# housing.plot(kind ="scatter", x="median_income", y="median_house_value", alpha=0.1)
+# plt.show()
+
+# check for correlation and attribute combinations
+housing["rooms_per_household"] = housing["total_rooms"] / housing["households"]
+housing["bedrooms_per_household"] = housing["total_bedrooms"] / housing["total_rooms"]
+housing["population_per_household"] = housing["population"] / housing["households"]
+
+corr_matrix = housing.corr()
+print(corr_matrix["median_house_value"].sort_values(ascending=False))
+
+# preparing the data
+# separating the labels from the train set
+housing = strat_train_set.drop(["median_house_value"], axis=1)
+housing_labels = strat_train_set["median_house_value"].copy()
+
+# impute the empty values with median
+from sklearn.impute import SimpleImputer
+
+imputer = SimpleImputer(strategy="median")
+
+housing_num = housing.drop("ocean_proximity", axis=1)
+imputer.fit(housing_num)
+
+print(imputer.statistics_)
+
+X = imputer.transform(housing_num)
+housing_tr = pd.DataFrame(X, columns=housing_num.columns)
