@@ -3,7 +3,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sklearn.linear_model
 from util import MLUtil
-import os
 
 # load the data
 oecd_bli = pd.read_csv("../datasets/lifesat/oecd_bli_2015.csv", thousands=',')

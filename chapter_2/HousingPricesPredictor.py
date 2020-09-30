@@ -1,8 +1,8 @@
-import matplotlib.pyplot as plt
 from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.model_selection import train_test_split
 
 from util.MLUtil import *
+from util.transformer import CombinedAttributesAdder
 
 pd.set_option('display.max_columns', None)
 
@@ -22,7 +22,7 @@ housing = pd.read_csv(csv_path)
 
 # split the data for testing
 train_set, test_set = train_test_split(housing, test_size=0.2, random_state=42)
-print(len(train_set), len(test_set))
+print(train_set.columns)
 
 housing["income_cat"] = pd.cut(housing["median_income"],
                                bins=[0., 1.5, 3.0, 4.5, 6., np.inf],
@@ -86,9 +86,21 @@ from sklearn.impute import SimpleImputer
 imputer = SimpleImputer(strategy="median")
 
 housing_num = housing.drop("ocean_proximity", axis=1)
+
 imputer.fit(housing_num)
-
-print(imputer.statistics_)
-
 X = imputer.transform(housing_num)
+
 housing_tr = pd.DataFrame(X, columns=housing_num.columns)
+
+
+# handle categorical values
+housing_cat = housing[["ocean_proximity"]]
+print(housing_cat.head())
+
+from sklearn.preprocessing import OneHotEncoder
+cat_encoder = OneHotEncoder()
+housing_cat_encoded = cat_encoder.fit_transform(housing_cat)
+
+# creating custom transformer
+attr_adder = CombinedAttributesAdder(add_bedrooms_per_room = False)
+housing_extra_attribs = attr_adder.transform(housing.values)
