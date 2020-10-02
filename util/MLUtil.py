@@ -63,3 +63,8 @@ def split_train_test_by_id(data, test_ratio, id_column):
     in_test_set = ids.apply(lambda id_: test_set_check(id_, test_ratio))
     print(in_test_set)
     return data.iloc[~in_test_set], data.iloc[in_test_set]
+
+def display_scores(scores):
+    print("scores:", scores)
+    print("mean:", scores.mean())
+    print("standard deviation", scores.std())
