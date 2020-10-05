@@ -1,3 +1,4 @@
+from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.model_selection import train_test_split
 
@@ -130,67 +131,124 @@ housing_prepared = full_pipeline.fit_transform(housing)
 
 print(pd.DataFrame(housing_prepared).columns)
 
-# train the model
-from sklearn.linear_model import LinearRegression
+# # train the model
+# from sklearn.linear_model import LinearRegression
+#
+# lin_reg = LinearRegression()
+# lin_reg.fit(housing_prepared, housing_labels)
+#
+# some_data  = housing.iloc[:5]
+# some_labels = housing_labels.iloc[:5]
+#
+# some_data_prepared = full_pipeline.transform(some_data)
+# print("Predictions", lin_reg.predict(some_data_prepared))
+# print("corresponding labels", list(some_labels))
+#
+# # check the error
+# from sklearn.metrics import mean_squared_error
+# housing_predictions = lin_reg.predict(housing_prepared)
+# lin_mse = mean_squared_error(housing_predictions,housing_labels)
+# lin_rmse = np.sqrt(lin_mse)
+#
+# assert lin_rmse == 68628.19819848922
+#
+# from sklearn.tree import DecisionTreeRegressor
+#
+# tree_reg = DecisionTreeRegressor()
+# tree_reg.fit(housing_prepared, housing_labels)
+#
+# housing_predictions = tree_reg.predict(housing_prepared)
+# tree_mse = mean_squared_error(housing_predictions, housing_labels)
+# tree_rmse = np.sqrt(tree_mse)
+#
+# assert tree_rmse == 0.0
+#
+# # Evaluate with cross validation as the model is under-fitted
+# from sklearn.model_selection import cross_val_score
+#
+# dec_tree_scores = cross_val_score(tree_reg, housing_prepared, housing_labels, scoring="neg_mean_squared_error", cv=10)
+# dec_tree_cross_rmse= np.sqrt(-dec_tree_scores)
+#
+# display_scores(dec_tree_cross_rmse)
+#
+# #Evaluate with cross validation for linear regression as decisiontree performed worse due to overfitting
+#
+#
+# lin_reg_cross_scores = cross_val_score(lin_reg, housing_prepared, housing_labels, scoring="neg_mean_squared_error", cv=10)
+# lin_reg_cross_rmse= np.sqrt(-lin_reg_cross_scores)
+#
+# display_scores(lin_reg_cross_rmse)
+#
+# #Evaluate with cross validation for random forest to check if it will perform better than linear reg
+#
+# from sklearn.ensemble import RandomForestRegressor
+#
+# random_forest_reg = RandomForestRegressor()
+# random_forest_reg.fit(housing_prepared, housing_labels)
+# housing_predictions = random_forest_reg.predict(housing_prepared)
+# ran_for_mse = mean_squared_error(housing_labels, housing_predictions)
+# print("mean squared error", np.sqrt(ran_for_mse))
+#
+# ran_for_cross_scores = cross_val_score(random_forest_reg, housing_prepared, housing_labels, scoring="neg_mean_squared_error", cv=10)
+# ran_for_cross_rmse= np.sqrt(-ran_for_cross_scores)
+#
+# display_scores(ran_for_cross_rmse)
 
-lin_reg = LinearRegression()
-lin_reg.fit(housing_prepared, housing_labels)
+# fine tune the model with grid search cv
 
-some_data  = housing.iloc[:5]
-some_labels = housing_labels.iloc[:5]
-
-some_data_prepared = full_pipeline.transform(some_data)
-print("Predictions", lin_reg.predict(some_data_prepared))
-print("corresponding labels", list(some_labels))
-
-# check the error
-from sklearn.metrics import mean_squared_error
-housing_predictions = lin_reg.predict(housing_prepared)
-lin_mse = mean_squared_error(housing_predictions,housing_labels)
-lin_rmse = np.sqrt(lin_mse)
-
-assert lin_rmse == 68628.19819848922
-
-from sklearn.tree import DecisionTreeRegressor
-
-tree_reg = DecisionTreeRegressor()
-tree_reg.fit(housing_prepared, housing_labels)
-
-housing_predictions = tree_reg.predict(housing_prepared)
-tree_mse = mean_squared_error(housing_predictions, housing_labels)
-tree_rmse = np.sqrt(tree_mse)
-
-assert tree_rmse == 0.0
-
-# Evaluate with cross validation as the model is under-fitted
-from sklearn.model_selection import cross_val_score
-
-dec_tree_scores = cross_val_score(tree_reg, housing_prepared, housing_labels, scoring="neg_mean_squared_error", cv=10)
-dec_tree_cross_rmse= np.sqrt(-dec_tree_scores)
-
-display_scores(dec_tree_cross_rmse)
-
-#Evaluate with cross validation for linear regression as decisiontree performed worse due to overfitting
-
-
-lin_reg_cross_scores = cross_val_score(lin_reg, housing_prepared, housing_labels, scoring="neg_mean_squared_error", cv=10)
-lin_reg_cross_rmse= np.sqrt(-lin_reg_cross_scores)
-
-display_scores(lin_reg_cross_rmse)
-
-#Evaluate with cross validation for random forest to check if it will perform better than linear reg
-
+from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestRegressor
 
-random_forest_reg = RandomForestRegressor()
-random_forest_reg.fit(housing_prepared, housing_labels)
-housing_predictions = random_forest_reg.predict(housing_prepared)
-ran_for_mse = mean_squared_error(housing_labels, housing_predictions)
-print("mean squared error", np.sqrt(ran_for_mse))
+param_grid = [
+    {'n_estimators':[3,10,30], 'max_features':[2, 4, 6, 8]},
+    {'bootstrap': [False], 'n_estimators':[3,10], 'max_features':[2, 3, 4]}
+]
 
-ran_for_cross_scores = cross_val_score(random_forest_reg, housing_prepared, housing_labels, scoring="neg_mean_squared_error", cv=10)
-ran_for_cross_rmse= np.sqrt(-ran_for_cross_scores)
+forest_reg = RandomForestRegressor()
 
-display_scores(ran_for_cross_rmse)
+grid_search = GridSearchCV(forest_reg, param_grid, cv = 5,
+                           scoring= 'neg_mean_squared_error',
+                           return_train_score=True)
+grid_search.fit(housing_prepared, housing_labels)
 
-ib.dump(random_forest_reg, "my_model.pkl")
+
+print("best parameters out of grid search :",grid_search.best_params_)
+
+# cvres = grid_search.cv_results_
+# for mean_score, params in zip(cvres["mean_test_score"], cvres["params"]):
+#     print(f"mean absolute score {np.sqrt(-mean_score)} for parameter {params}")
+
+# feature_importances = grid_search.best_estimator_.feature_importances_
+# print(f"best features {feature_importances}")
+#
+# extra_attribs = ["rooms_per_hhold", "pop_per_hhold", "bedrooms_per_room"]
+# cat_encoder = full_pipeline.named_transformers_["cat"]
+# cat_one_hot_attribs = list(cat_encoder.categories_[0])
+# attributes = num_attribs + extra_attribs + cat_one_hot_attribs
+#
+# print(sorted(zip(feature_importances, attributes), reverse= True))
+
+# evaluate system on test set
+
+final_model = grid_search.best_estimator_
+
+X_test = strat_test_set.drop("median_house_value", axis = 1)
+y_test = strat_test_set["median_house_value"].copy()
+
+X_test_prepared = full_pipeline.transform(X_test)
+
+final_predictions = final_model.predict(X_test_prepared)
+
+final_mse = mean_squared_error(y_test, final_predictions)
+final_rmse = np.sqrt(final_mse)
+
+print(f"final prediction score {final_rmse}")
+
+# checking the precision of the model using confidence level
+from scipy import stats
+confidence = 0.95
+squared_errors = (final_predictions - y_test) ** 2
+performance_stat = np.sqrt(stats.t.interval(confidence, len(squared_errors)-1,
+                         loc = squared_errors.mean(),
+                         scale = stats.sem(squared_errors)))
+print(f"performance stat {performance_stat}")

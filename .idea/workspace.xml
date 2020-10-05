@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="cd3bb80c-7fcd-43fb-b82c-506810654403" name="Default Changelist" comment="added housing predictor data loading">
+      <change afterPath="$PROJECT_DIR$/chapter_2/my_model.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chapter_2/HousingPricesPredictor.py" beforeDir="false" afterPath="$PROJECT_DIR$/chapter_2/HousingPricesPredictor.py" afterDir="false" />
+    </list>
+    <list id="027d395f-1392-40ea-bd2d-8a018317f2e9" name="ignore" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/Hands-on-Machine-Learning-w-scikit-tensorflow-ssh.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Hands-on-Machine-Learning-w-scikit-tensorflow-ssh.iml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1hd9lb8MuW3HYUdC63xUTyjOuMN" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\codebase\Hands-on-Machine-Learning-w-scikit-tensorflow-ssh\util" />
+      <recent name="D:\codebase\Hands-on-Machine-Learning-w-scikit-tensorflow-ssh\util\transformer" />
+      <recent name="D:\codebase\Hands-on-Machine-Learning-w-scikit-tensorflow-ssh\chapter_1" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.HousingPricesPredictor">
+    <configuration name="HousingPricesPredictor" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Hands-on-Machine-Learning-w-scikit-tensorflow-ssh" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/chapter_2" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/chapter_2/HousingPricesPredictor.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="LifeSatisfaction (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Hands-on-Machine-Learning-w-scikit-tensorflow-ssh" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/chapter_1" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/chapter_1/LifeSatisfaction.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="LifeSatisfaction" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Hands-on-Machine-Learning-w-scikit-tensorflow-ssh" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/chapter_1" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="D:\codebase\Hands-on-Machine-Learning-w-scikit-tensorflow-ssh\chapter_1\LifeSatisfaction.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="word_embedding" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Hands-on-Machine-Learning-w-scikit-tensorflow-ssh" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../tensorflow_test" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../tensorflow_test/word_embedding.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.HousingPricesPredictor" />
+        <item itemvalue="Python.LifeSatisfaction (1)" />
+        <item itemvalue="Python.LifeSatisfaction" />
+        <item itemvalue="Python.word_embedding" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cd3bb80c-7fcd-43fb-b82c-506810654403" name="Default Changelist" comment="" />
+      <changelist id="027d395f-1392-40ea-bd2d-8a018317f2e9" name="ignore" comment="" />
+      <created>1600330254094</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1600330254094</updated>
+    </task>
+    <task id="LOCAL-00001" summary="added housing predictor data loading">
+      <created>1600766877713</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1600766877714</updated>
+    </task>
+    <task id="LOCAL-00002" summary="added plotting an splitting data for house predictor">
+      <created>1600848739500</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1600848739500</updated>
+    </task>
+    <task id="LOCAL-00003" summary="added train set splitting and visualizing">
+      <created>1600935272363</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1600935272363</updated>
+    </task>
+    <task id="LOCAL-00004" summary="added imputation and combination attributes">
+      <created>1601281247728</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1601281247728</updated>
+    </task>
+    <task id="LOCAL-00005" summary="added transformers and onehotencoders">
+      <created>1601457548441</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1601457548441</updated>
+    </task>
+    <task id="LOCAL-00006" summary="added model selection and evaluation">
+      <created>1601651589883</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1601651589883</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="added housing predictor data loading" />
+    <MESSAGE value="added plotting an splitting data for house predictor" />
+    <MESSAGE value="added train set splitting and visualizing" />
+    <MESSAGE value="added imputation and combination attributes" />
+    <MESSAGE value="added transformers and onehotencoders" />
+    <MESSAGE value="added model selection and evaluation" />
+    <option name="LAST_COMMIT_MESSAGE" value="added model selection and evaluation" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="2206" y="378" key="#Inspections" timestamp="1600837177278">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="2206" y="378" key="#Inspections/0.0.3440.1400@0.0.3440.1400" timestamp="1600837177278" />
+    <state x="2319" y="520" key="#Notifications" timestamp="1601019027658">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="2319" y="520" key="#Notifications/0.0.3440.1400@0.0.3440.1400" timestamp="1601019027658" />
+    <state x="2172" y="341" key="#Plugins" timestamp="1600833106887">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="2172" y="341" key="#Plugins/0.0.3440.1400@0.0.3440.1400" timestamp="1600833106887" />
+    <state x="2378" y="594" key="#com.jetbrains.python.refactoring.move.PyMoveModuleMembersDialog" timestamp="1601648193767">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="2378" y="594" key="#com.jetbrains.python.refactoring.move.PyMoveModuleMembersDialog/0.0.3440.1400@0.0.3440.1400" timestamp="1601648193767" />
+    <state x="1500" y="455" key="FileChooserDialogImpl" timestamp="1600777971871">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="1500" y="455" key="FileChooserDialogImpl/0.0.3440.1400@0.0.3440.1400" timestamp="1600777971871" />
+    <state width="1698" height="490" key="GridCell.Tab.0.bottom" timestamp="1601908454921">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state width="1698" height="490" key="GridCell.Tab.0.bottom/0.0.3440.1400@0.0.3440.1400" timestamp="1601908454921" />
+    <state width="1698" height="490" key="GridCell.Tab.0.center" timestamp="1601908454921">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state width="1698" height="490" key="GridCell.Tab.0.center/0.0.3440.1400@0.0.3440.1400" timestamp="1601908454921" />
+    <state width="1698" height="490" key="GridCell.Tab.0.left" timestamp="1601908454921">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state width="1698" height="490" key="GridCell.Tab.0.left/0.0.3440.1400@0.0.3440.1400" timestamp="1601908454921" />
+    <state width="1698" height="490" key="GridCell.Tab.0.right" timestamp="1601908454921">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state width="1698" height="490" key="GridCell.Tab.0.right/0.0.3440.1400@0.0.3440.1400" timestamp="1601908454921" />
+    <state width="1696" height="488" key="GridCell.Tab.1.bottom" timestamp="1600766916161">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state width="1696" height="488" key="GridCell.Tab.1.bottom/0.0.3440.1400@0.0.3440.1400" timestamp="1600766916161" />
+    <state width="1696" height="488" key="GridCell.Tab.1.center" timestamp="1600766916161">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state width="1696" height="488" key="GridCell.Tab.1.center/0.0.3440.1400@0.0.3440.1400" timestamp="1600766916161" />
+    <state width="1696" height="488" key="GridCell.Tab.1.left" timestamp="1600766916160">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state width="1696" height="488" key="GridCell.Tab.1.left/0.0.3440.1400@0.0.3440.1400" timestamp="1600766916160" />
+    <state width="1696" height="488" key="GridCell.Tab.1.right" timestamp="1600766916161">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state width="1696" height="488" key="GridCell.Tab.1.right/0.0.3440.1400@0.0.3440.1400" timestamp="1600766916161" />
+    <state x="1455" y="402" key="RollbackChangesDialog" timestamp="1600766854760">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="1455" y="402" key="RollbackChangesDialog/0.0.3440.1400@0.0.3440.1400" timestamp="1600766854760" />
+    <state x="368" y="345" key="SettingsEditor" timestamp="1601454876930">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="368" y="345" key="SettingsEditor/0.0.3440.1400@0.0.3440.1400" timestamp="1601454876930" />
+    <state x="1567" y="613" key="VCS.ChangelistChooser" timestamp="1600766716960">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="1567" y="613" key="VCS.ChangelistChooser/0.0.3440.1400@0.0.3440.1400" timestamp="1600766716960" />
+    <state x="1312" y="433" key="Vcs.Push.Dialog.v2" timestamp="1601651598574">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="1312" y="433" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1601651598574" />
+    <state x="2287" y="388" width="583" height="624" key="find.popup" timestamp="1601279250789">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="2287" y="388" width="583" height="624" key="find.popup/0.0.3440.1400@0.0.3440.1400" timestamp="1601279250789" />
+    <state x="1383" y="315" width="672" height="678" key="search.everywhere.popup" timestamp="1601456012523">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="1383" y="315" width="672" height="678" key="search.everywhere.popup/0.0.3440.1400@0.0.3440.1400" timestamp="1601456012523" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/util/MLUtil.py</url>
+          <line>37</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
