@@ -1,9 +1,13 @@
-from sklearn.metrics import mean_squared_error
+import os
+
+import numpy as np
+import pandas as pd
 from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.model_selection import train_test_split
 
-from util.MLUtil import *
-
+from util.MLUtil import build_transformer
+from util.MLUtil import fetch_housing_data
+from util.MLUtil import predict_with_best_model
 
 pd.set_option('display.max_columns', None)
 
@@ -25,6 +29,8 @@ housing = pd.read_csv(csv_path)
 train_set, test_set = train_test_split(housing, test_size=0.2, random_state=42)
 print(train_set.columns)
 
+# create a new column to check whether train and test are representatives of the new columns
+# i.e the after-effects of the splitting is represented in the sets.
 housing["income_cat"] = pd.cut(housing["median_income"],
                                bins=[0., 1.5, 3.0, 4.5, 6., np.inf],
                                labels=[1, 2, 3, 4, 5])
@@ -82,50 +88,9 @@ housing = strat_train_set.drop(["median_house_value"], axis=1)
 housing_labels = strat_train_set["median_house_value"].copy()
 
 # impute the empty values with median
-from sklearn.impute import SimpleImputer
-
-imputer = SimpleImputer(strategy="median")
-
+# handle categorical values and apply transformation
 housing_num = housing.drop("ocean_proximity", axis=1)
-
-imputer.fit(housing_num)
-X = imputer.transform(housing_num)
-
-housing_tr = pd.DataFrame(X, columns=housing_num.columns)
-
-
-# handle categorical values
-housing_cat = housing[["ocean_proximity"]]
-
-from sklearn.preprocessing import OneHotEncoder
-cat_encoder = OneHotEncoder()
-housing_cat_encoded = cat_encoder.fit_transform(housing_cat)
-
-# creating custom transformer
-#attr_adder = CombinedAttributesAdder(add_bedrooms_per_room = False)
-#housing_extra_attribs = attr_adder.transform(housing.values)
-
-
-# apply transformation
-from sklearn.compose import ColumnTransformer
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler
-from util.transformer import CombinedAttributesAdder
-
-num_attribs = list(housing_num)
-cat_attribs = ["ocean_proximity"]
-
-
-num_pipeline = Pipeline(steps = [
-    ('imputer', SimpleImputer(strategy = 'median')),
-    ('attribs_adder' , CombinedAttributesAdder()),
-    ('std_scaler', StandardScaler()),
-])
-
-full_pipeline = ColumnTransformer([
-    ('num', num_pipeline, num_attribs),
-    ('cat', OneHotEncoder(), cat_attribs)
-])
+full_pipeline = build_transformer(housing_num)
 
 housing_prepared = full_pipeline.fit_transform(housing)
 
@@ -174,8 +139,8 @@ print(pd.DataFrame(housing_prepared).columns)
 # #Evaluate with cross validation for linear regression as decisiontree performed worse due to overfitting
 #
 #
-# lin_reg_cross_scores = cross_val_score(lin_reg, housing_prepared, housing_labels, scoring="neg_mean_squared_error", cv=10)
-# lin_reg_cross_rmse= np.sqrt(-lin_reg_cross_scores)
+# lin_reg_cross_scores = cross_val_score(lin_reg, housing_prepared, housing_labels, scoring="neg_mean_squared_error",
+# cv=10) lin_reg_cross_rmse= np.sqrt(-lin_reg_cross_scores)
 #
 # display_scores(lin_reg_cross_rmse)
 #
@@ -189,8 +154,8 @@ print(pd.DataFrame(housing_prepared).columns)
 # ran_for_mse = mean_squared_error(housing_labels, housing_predictions)
 # print("mean squared error", np.sqrt(ran_for_mse))
 #
-# ran_for_cross_scores = cross_val_score(random_forest_reg, housing_prepared, housing_labels, scoring="neg_mean_squared_error", cv=10)
-# ran_for_cross_rmse= np.sqrt(-ran_for_cross_scores)
+# ran_for_cross_scores = cross_val_score(random_forest_reg, housing_prepared, housing_labels,
+# scoring="neg_mean_squared_error", cv=10) ran_for_cross_rmse= np.sqrt(-ran_for_cross_scores)
 #
 # display_scores(ran_for_cross_rmse)
 
@@ -200,19 +165,18 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestRegressor
 
 param_grid = [
-    {'n_estimators':[3,10,30], 'max_features':[2, 4, 6, 8]},
-    {'bootstrap': [False], 'n_estimators':[3,10], 'max_features':[2, 3, 4]}
+    {'n_estimators': [3, 10, 30], 'max_features': [2, 4, 6, 8]},
+    {'bootstrap': [False], 'n_estimators': [3, 10], 'max_features': [2, 3, 4]}
 ]
 
 forest_reg = RandomForestRegressor()
 
-grid_search = GridSearchCV(forest_reg, param_grid, cv = 5,
-                           scoring= 'neg_mean_squared_error',
+grid_search = GridSearchCV(forest_reg, param_grid, cv=5,
+                           scoring='neg_mean_squared_error',
                            return_train_score=True)
 grid_search.fit(housing_prepared, housing_labels)
 
-
-print("best parameters out of grid search :",grid_search.best_params_)
+print("best parameters out of grid search :", grid_search.best_params_)
 
 # cvres = grid_search.cv_results_
 # for mean_score, params in zip(cvres["mean_test_score"], cvres["params"]):
@@ -232,23 +196,9 @@ print("best parameters out of grid search :",grid_search.best_params_)
 
 final_model = grid_search.best_estimator_
 
-X_test = strat_test_set.drop("median_house_value", axis = 1)
+X_test = strat_test_set.drop("median_house_value", axis=1)
 y_test = strat_test_set["median_house_value"].copy()
 
-X_test_prepared = full_pipeline.transform(X_test)
+print(f"performance stat {predict_with_best_model(X_test,y_test,full_pipeline, final_model)}")
 
-final_predictions = final_model.predict(X_test_prepared)
 
-final_mse = mean_squared_error(y_test, final_predictions)
-final_rmse = np.sqrt(final_mse)
-
-print(f"final prediction score {final_rmse}")
-
-# checking the precision of the model using confidence level
-from scipy import stats
-confidence = 0.95
-squared_errors = (final_predictions - y_test) ** 2
-performance_stat = np.sqrt(stats.t.interval(confidence, len(squared_errors)-1,
-                         loc = squared_errors.mean(),
-                         scale = stats.sem(squared_errors)))
-print(f"performance stat {performance_stat}")

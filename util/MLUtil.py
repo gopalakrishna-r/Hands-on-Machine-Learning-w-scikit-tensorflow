@@ -3,8 +3,14 @@ import os
 import tarfile
 from six.moves import urllib
 import numpy as np
-
+from sklearn.metrics import mean_squared_error
 import urllib.request
+
+from sklearn.impute import SimpleImputer
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder
+
+from util.TopFeatureSelector import TopFeatureSelector
 
 DOWNLOAD_ROOT = "https://github.com/ageron/handson-ml2/raw/master/"
 
@@ -64,7 +70,56 @@ def split_train_test_by_id(data, test_ratio, id_column):
     print(in_test_set)
     return data.iloc[~in_test_set], data.iloc[in_test_set]
 
+
 def display_scores(scores):
     print("scores:", scores)
     print("mean:", scores.mean())
     print("standard deviation", scores.std())
+
+
+def build_transformer(housing_numericals, cat_attribs=None):
+    if cat_attribs is None:
+        cat_attribs = ["ocean_proximity"]
+    from sklearn.compose import ColumnTransformer
+    from sklearn.pipeline import Pipeline
+    from sklearn.preprocessing import StandardScaler
+    from util.transformer import CombinedAttributesAdder
+    num_attribs = list(housing_numericals)
+
+    num_pipeline = Pipeline(steps=[
+        ('imputer', SimpleImputer(strategy='median')),
+        ('attribs_adder', CombinedAttributesAdder()),
+        ('std_scaler', StandardScaler()),
+    ])
+    full_pipeline = ColumnTransformer([
+        ('num', num_pipeline, num_attribs),
+        ('cat', OneHotEncoder(), cat_attribs)
+    ])
+    return full_pipeline
+
+def build_transformer_with_features(housing_numericals, top_features, feature_count, cat_attribs=None):
+    pipeline = build_transformer(housing_numericals, cat_attribs)
+    preparation_and_feature_selection_pipeline = Pipeline([
+        ('preparation', pipeline),
+        ('feature_selection', TopFeatureSelector(top_features, feature_count))
+    ])
+    return preparation_and_feature_selection_pipeline
+
+
+def predict_with_best_model(X_test, y_test, full_pipeline, final_model):
+    X_test_prepared = full_pipeline.transform(X_test)
+    final_predictions = final_model.predict(X_test_prepared)
+    final_mse = mean_squared_error(y_test, final_predictions)
+    final_rmse = np.sqrt(final_mse)
+    print(f"final prediction score {final_rmse}")
+    # checking the precision of the model using confidence level
+    from scipy import stats
+    confidence = 0.95
+    squared_errors = (final_predictions - y_test) ** 2
+    performance_stat = np.sqrt(stats.t.interval(confidence, len(squared_errors) - 1,
+                                                loc=squared_errors.mean(),
+                                                scale=stats.sem(squared_errors)))
+    return performance_stat
+
+
+
