@@ -102,22 +102,28 @@ def build_transformer(housing_numericals, cat_attribs=None):
 def build_transformer_with_features_model(housing_numericals, feature_count, top_features=None, cat_attribs=None,
                                           best_parameters=None):
     pipeline = build_transformer(housing_numericals, cat_attribs)
-    pipeline_steps_ = [
-        ('preparation', pipeline)
-    ]
     if top_features is None:
         if best_parameters is None:
-            pass
+            return Pipeline([
+                ('preparation', pipeline)
+            ])
         else:
-            pipeline_steps_ = pipeline_steps_.append([('svm_reg', SVR(best_parameters))])
+            return Pipeline([
+                ('preparation', pipeline),
+                ('svm_reg', SVR(best_parameters))
+            ])
     else:
         if best_parameters is None:
-            pipeline_steps_ = pipeline_steps_.append([('feature_selection', TopFeatureSelector(top_features, feature_count))])
+            return Pipeline([
+                ('preparation', pipeline),
+                ('feature_selection', TopFeatureSelector(top_features, feature_count))
+            ])
         else:
-            pipeline_steps_ = pipeline_steps_.append([('svm_reg', SVR(best_parameters)),
-                               ('feature_selection', TopFeatureSelector(top_features, feature_count))])
-
-    return Pipeline(pipeline_steps_)
+            return Pipeline([
+                ('preparation', pipeline),
+                ('feature_selection', TopFeatureSelector(top_features, feature_count)),
+                ('svm_reg', SVR(best_parameters))
+            ])
 
 
 def predict_with_best_model(X_test, y_test, full_pipeline, final_model):

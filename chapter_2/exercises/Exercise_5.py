@@ -76,6 +76,8 @@ grid_search.fit(housing_prepared, housing_labels)
 
 feature_importances = grid_search.best_estimator_.feature_importances_
 print(f"best features {feature_importances}")
+k = 5
+indices_of_top_features = indices_of_features(feature_importances,k)
 
 n_grid = {
         'kernel': ['linear', 'rbf'],
@@ -95,16 +97,28 @@ random_search.fit(housing_prepared, housing_labels)
 full_pipeline_with_model = build_transformer_with_features_model(housing_numericals=housing_num,
                                                                  top_features=feature_importances,
                                                                  feature_count=k,best_parameters=random_search.best_params_)
-full_pipeline_with_model.fit(housing, housing_labels)
-X_test = strat_test_set.drop("median_house_value", axis=1)
-y_test = strat_test_set["median_house_value"].copy()
+
+param_grid = [
+    {'preparation_num_imputer_strategy': ['mean', 'median', 'most_frequent']},
+    {'feature_selection_k': list(1, len(feature_importances) + 1)},
+]
+
+svm = SVR()
+
+grid_search = GridSearchCV(svm, param_grid, cv=5,
+                           scoring='neg_mean_squared_error',verbose=2,
+                           return_train_score=True, n_jobs =10)
+grid_search.fit(housing_prepared, housing_labels)
+
+print("best parameters out of grid search :", grid_search.best_params_) # {'C': 30000, 'kernel': 'linear'}
+
+# evaluate system on test set
+
+final_model = grid_search.best_estimator_
 
 X_test = strat_test_set.drop("median_house_value", axis=1)
 y_test = strat_test_set["median_house_value"].copy()
 
-X_test_prepared = full_pipeline_with_model.transform(X_test)
+print(f"performance stat {predict_with_best_model(X_test,y_test,full_pipeline, final_model)}")
 
-final_predictions = full_pipeline_with_model.predict(X_test_prepared)
-final_mse = mean_squared_error(y_test, final_predictions)
-final_rmse = np.sqrt(final_mse)
-print(f"final prediction score {final_rmse}")
+
