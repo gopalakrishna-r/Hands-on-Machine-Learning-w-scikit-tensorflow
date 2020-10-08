@@ -122,7 +122,7 @@ def build_transformer_with_features_model(housing_numericals, feature_count, top
             return Pipeline([
                 ('preparation', pipeline),
                 ('feature_selection', TopFeatureSelector(top_features, feature_count)),
-                ('svm_reg', SVR(best_parameters))
+                ('svm_reg', SVR(**best_parameters))
             ])
 
 

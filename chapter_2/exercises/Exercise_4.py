@@ -94,17 +94,10 @@ random_search.fit(housing_prepared, housing_labels)
 # evaluate system on test set
 full_pipeline_with_model = build_transformer_with_features_model(housing_numericals=housing_num,
                                                                  top_features=feature_importances,
-                                                                 feature_count=k,best_parameters=random_search.best_params_)
+                                                                 feature_count=5,best_parameters=random_search.best_params_)
 full_pipeline_with_model.fit(housing, housing_labels)
-X_test = strat_test_set.drop("median_house_value", axis=1)
-y_test = strat_test_set["median_house_value"].copy()
+some_data = housing.iloc[:4]
+some_labels = housing_labels.iloc[:4]
 
-X_test = strat_test_set.drop("median_house_value", axis=1)
-y_test = strat_test_set["median_house_value"].copy()
-
-X_test_prepared = full_pipeline_with_model.transform(X_test)
-
-final_predictions = full_pipeline_with_model.predict(X_test_prepared)
-final_mse = mean_squared_error(y_test, final_predictions)
-final_rmse = np.sqrt(final_mse)
-print(f"final prediction score {final_rmse}")
+print("Predictions:\t", full_pipeline_with_model.predict(some_data))
+print("Labels:\t\t", list(some_labels))

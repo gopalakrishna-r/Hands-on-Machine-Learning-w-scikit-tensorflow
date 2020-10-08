@@ -8,5 +8,3 @@ print(X.shape, y.shape)
 # display a feature instance
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-
-some_digit
