@@ -140,3 +140,22 @@ def predict_with_best_model(X_test, y_test, full_pipeline, final_model):
                                                 loc=squared_errors.mean(),
                                                 scale=stats.sem(squared_errors)))
     return performance_stat
+
+
+from sklearn.model_selection import StratifiedKFold
+from sklearn.base import clone
+
+def cross_val_score_wth_split(X_train, y_train, model):
+    skfolds = StratifiedKFold(n_splits=3, random_state=42)
+    for train_index, test_index in skfolds.split(X_train, y_train):
+        clone_clf = clone(model)
+        X_train_folds = X_train[train_index]
+        y_train_folds = y_train[train_index]
+        X_test_folds = X_train[test_index]
+        y_test_folds = y_train[test_index]
+
+        clone_clf.fit(X_test_folds, y_test_folds)
+        y_pred = clone.predit(X_test_folds)
+
+        n_correct = sum(y_pred == y_test_folds)
+        print(n_correct/len(y_pred))
