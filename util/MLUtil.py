@@ -10,6 +10,7 @@ from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.svm import SVR
+import matplotlib.pyplot as plt
 
 from util.TopFeatureSelector import TopFeatureSelector
 
@@ -154,8 +155,18 @@ def cross_val_score_wth_split(X_train, y_train, model):
         X_test_folds = X_train[test_index]
         y_test_folds = y_train[test_index]
 
-        clone_clf.fit(X_test_folds, y_test_folds)
+        clone_clf.fit(X_train_folds, y_train_folds)
         y_pred = clone.predit(X_test_folds)
 
         n_correct = sum(y_pred == y_test_folds)
         print(n_correct/len(y_pred))
+
+def plot_precision_recall_vs_threshold(precisions, recalls, thresholds):
+    plt.figure(figsize=(8, 4))
+    plt.plot(thresholds, precisions[:-1], "b--", label ="Precision")
+    plt.plot(thresholds, recalls[:-1], "g-", label = "Recall")
+    plt.xlabel("Threshold",fontsize = 16)
+    plt.legend(loc = "upper left", fontsize = 16)
+    plt.ylim(0, -1)
+    plt.xlim([-700000, 700000])
+    plt.show()

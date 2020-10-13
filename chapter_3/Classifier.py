@@ -2,6 +2,8 @@ from sklearn.datasets import fetch_openml
 import numpy as np
 from sklearn.model_selection import cross_val_score
 
+from util.MLUtil import plot_precision_recall_vs_threshold
+
 mnist = fetch_openml('mnist_784', version=1)
 X,  y = mnist["data"], mnist["target"]
 
@@ -50,3 +52,32 @@ print(f"precision of the model is: {precision_score(y_train_5, y_train_pred)} re
 # F1 score
 from sklearn.metrics import f1_score
 print(f" F1 score of the model is: {f1_score(y_train_5, y_train_pred)}")
+
+# using the decision function to make predictions instead predict method of the model
+y_scores = sgd_clf.decision_function([some_digit])
+print(y_scores)
+
+# fetch decision scores from cross_val_predict
+y_scores = cross_val_predict(sgd_clf,X_train, y_train_5, cv=3, method="decision_function")
+
+from sklearn.metrics import precision_recall_curve
+
+precisions, recalls, thresholds = precision_recall_curve(y_train_5, y_scores)
+print(f"precision : {precisions} recall score is :  {recalls}, thresholds {thresholds}")
+
+# plt.figure(figsize=(8, 4))
+# plt.plot(thresholds, precisions[:-1], "b--", label="Precision", linewidth=2)
+# plt.plot(thresholds, recalls[:-1], "g-", label="Recall", linewidth=2)
+# plt.xlabel("Threshold", fontsize=16)
+# plt.legend(loc="upper left", fontsize=16)
+# plt.ylim([0, 1])
+# plt.xlim([-700000, 700000])
+# plt.show()
+
+# figure out the 90 percent precision
+threshold_90_precision = thresholds[np.argmax(precisions >= 0.90)]
+print(f"threshold for 90 percent precision {threshold_90_precision}")
+
+y_train_pred_90 = (y_scores >= threshold_90_precision)
+
+print(f"precision of the model after threshold change is: {precision_score(y_train_5, y_train_pred_90)} recall score is :  {recall_score(y_train_5, y_train_pred_90)}")
