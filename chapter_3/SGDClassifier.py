@@ -80,4 +80,20 @@ print(f"threshold for 90 percent precision {threshold_90_precision}")
 
 y_train_pred_90 = (y_scores >= threshold_90_precision)
 
-print(f"precision of the model after threshold change is: {precision_score(y_train_5, y_train_pred_90)} recall score is :  {recall_score(y_train_5, y_train_pred_90)}")
+print(f"precision of the model after threshold change is: {precision_score(y_train_5, y_train_pred_90)} recall score "
+      f"is :  {recall_score(y_train_5, y_train_pred_90)}")
+
+# plot ROC curve
+# from sklearn.metrics import roc_curve
+#
+# fpr, tpr, thresholds = roc_curve(y_train_5, y_scores)
+# plt.figure(figsize=(8,6))
+# plt.plot(fpr, tpr, linewidth=2, label = None)
+# plt.plot([0, 1], [0, 1], 'k--')
+# plt.axis([0,1,0,1])
+# plt.xlabel('False Positive Rate', fontsize=16)
+# plt.ylabel('True Positive Rate', fontsize=16)
+# plt.show()
+
+from sklearn.metrics import roc_auc_score
+print(f"roc auc score : {roc_auc_score(y_train_5, y_scores)}")
