@@ -28,9 +28,7 @@ from sklearn.ensemble import RandomForestClassifier
 forest_clf = RandomForestClassifier(random_state=42)
 
 # using cross_val_predict for generating confusion matrix
-
 from sklearn.model_selection import cross_val_predict
-from sklearn.metrics import confusion_matrix
 
 y_prob_forest =  cross_val_predict(forest_clf,X_train, y_train_5, cv=3, method="predict_proba") # retrieves the probabilities instead of decision scores
 y_score_forest = y_prob_forest[:,1] # score = proba of positive class
