@@ -57,6 +57,8 @@ print(f" F1 score of the model is: {f1_score(y_train_5, y_train_pred)}")
 y_scores = sgd_clf.decision_function([some_digit])
 print(y_scores)
 
+
+
 # fetch decision scores from cross_val_predict
 y_scores = cross_val_predict(sgd_clf,X_train, y_train_5, cv=3, method="decision_function")
 

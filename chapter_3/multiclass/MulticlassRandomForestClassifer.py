@@ -7,9 +7,6 @@ from util.MLUtil import plot_precision_recall_vs_threshold
 mnist = fetch_openml('mnist_784', version=1)
 X,  y = mnist["data"], mnist["target"]
 
-# display a feature instance
-import matplotlib.pyplot as plt
-
 some_digit = X[0]
 some_digit_image = some_digit.reshape(28,28)
 

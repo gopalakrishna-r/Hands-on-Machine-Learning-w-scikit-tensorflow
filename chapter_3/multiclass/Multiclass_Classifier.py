@@ -3,7 +3,7 @@ import numpy as np
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import cross_val_score, cross_val_predict
 
-from util.MLUtil import plot_precision_recall_vs_threshold
+from util.MLUtil import plot_precision_recall_vs_threshold, plot_digits
 
 mnist = fetch_openml('mnist_784', version=1)
 X,  y = mnist["data"], mnist["target"]
@@ -36,6 +36,29 @@ print(f" decision scores for the digit : f{some_digit_scores}  highest score :{n
 
 # plot confusion matrix for predictions
 y_train_pred = cross_val_predict(sgd_clf, X_train, y_train, cv=3)
-conf_mx = confusion_matrix(y_train_pred, y_train)
-plt.matshow(conf_mx, cmap = plt.cm.gray)
-plt.show()
+# conf_mx = confusion_matrix(y_train_pred, y_train)
+# plt.matshow(conf_mx, cmap = plt.cm.gray)
+# plt.show()
+#
+# # divide each element by the row sum i.e number of the images in the corresponding class
+# row_sums = conf_mx.sum(axis = 1, keepdims = True)
+# norm_conf_mx = conf_mx/row_sums
+#
+# # fill the diagonals with zero to keep the errors
+# # rows represent the actual class and columns represent predicted ones
+# np.fill_diagonal(norm_conf_mx, 0)
+# plt.matshow(norm_conf_mx, cmap = plt.cm.gray)
+# plt.show()
+
+# plotting misclassified 3s and 5s
+# cl_a, cl_b = 3, 5
+# X_aa = X_train[(y_train == cl_a) & (y_train_pred == cl_a)]
+# X_ab = X_train[(y_train == cl_a) & (y_train_pred == cl_b)]
+# X_ba = X_train[(y_train == cl_b) & (y_train_pred == cl_a)]
+# X_bb = X_train[(y_train == cl_b) & (y_train_pred == cl_b)]
+# plt.figure(figsize=(8,8))
+# plt.subplot(221); plot_digits(X_aa[:25], images_per_row=5)
+# plt.subplot(222); plot_digits(X_ab[:25], images_per_row=5)
+# plt.subplot(223); plot_digits(X_ba[:25], images_per_row=5)
+# plt.subplot(224); plot_digits(X_bb[:25], images_per_row=5)
+# plt.show()
