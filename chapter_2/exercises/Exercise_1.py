@@ -1,6 +1,7 @@
 from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.model_selection import train_test_split
 
+from util.DataLoader import fetch_housing_data
 from util.MLUtil import *
 from util.MLUtil import build_transformer
 
@@ -56,7 +57,7 @@ full_pipeline = build_transformer(housing_num)
 housing_prepared = full_pipeline.fit_transform(housing)
 
 from sklearn.model_selection import GridSearchCV
-from sklearn.svm import SVC, SVR
+from sklearn.svm import SVR
 
 param_grid = [
     {'kernel': ['linear'], 'C': [0.1, 1, 30, 100, 300,1000, 3000, 10000, 30000]},

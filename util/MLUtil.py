@@ -1,34 +1,20 @@
-import pandas as pd
-import os
-import tarfile
-from six.moves import urllib
+import matplotlib as mpl
+import matplotlib.pyplot as plt
 import numpy as np
-from sklearn.metrics import mean_squared_error
-import urllib.request
-
+import pandas as pd
+from scipy.ndimage import shift
 from sklearn.impute import SimpleImputer
+from sklearn.metrics import mean_squared_error
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.svm import SVR
-import matplotlib as mpl
-import matplotlib.pyplot as plt
+
 mpl.rc('axes', labelsize=14)
 mpl.rc('xtick', labelsize=12)
 mpl.rc('ytick', labelsize=12)
 
 
 from util.TopFeatureSelector import TopFeatureSelector
-
-DOWNLOAD_ROOT = "https://github.com/ageron/handson-ml2/raw/master/"
-
-
-def fetch_gdp_life_satisfaction_data(datapath):
-    os.makedirs(datapath, exist_ok=True)
-    csv_li = "oecd_bli_2015.csv"
-    csv_gdp = "gdp_per_capita.csv"
-    print("Downloading", csv_li, csv_gdp)
-    urllib.request.urlretrieve(DOWNLOAD_ROOT + "datasets/lifesat/" + csv_li, datapath + csv_li)
-    urllib.request.urlretrieve(DOWNLOAD_ROOT + "datasets/lifesat/" + csv_gdp, datapath + csv_li)
 
 
 def prepare_country_stats(oecd_bli, gdp_per_capita):
@@ -42,17 +28,6 @@ def prepare_country_stats(oecd_bli, gdp_per_capita):
     remove_indices = [0, 1, 6, 8, 33, 34, 35]
     keep_indices = list(set(range(36)) - set(remove_indices))
     return full_country_stats[["GDP per capita", 'Life satisfaction']].iloc[keep_indices]
-
-
-def fetch_housing_data(housing_url, housing_path):
-    if not os.path.isdir(housing_path):
-        os.makedirs(housing_path)
-    tgz_path = os.path.join(housing_path, "housing.tgz")
-    urllib.request.urlretrieve(housing_url, tgz_path)
-    housing_tgz = tarfile.open(tgz_path)
-    housing_tgz.extractall(path=housing_path)
-    housing_tgz.close()
-
 
 def split_train_test(data, test_ratio):
     np.random.seed(42)
@@ -190,3 +165,15 @@ def plot_digits(instances, images_per_row=10, **options):
     image = np.concatenate(row_images, axis=0)
     plt.imshow(image, cmap = mpl.cm.binary, **options)
     plt.axis("off")
+
+def plot_digit(data):
+    image = data.reshape(28, 28)
+    plt.imshow(image, cmap = mpl.cm.binary,
+               interpolation="nearest")
+    plt.axis("off")
+    plt.show()
+
+def shift_image(image, x, y):
+    im = image.reshape((28, 28))
+    shifted_image = shift(im, [x, y], cval= 0, mode='constant')
+    return shifted_image.reshape([-1])

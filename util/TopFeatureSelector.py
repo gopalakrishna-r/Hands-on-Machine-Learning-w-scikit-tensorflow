@@ -1,5 +1,5 @@
-from sklearn.base import BaseEstimator, TransformerMixin
 import numpy as np
+from sklearn.base import BaseEstimator, TransformerMixin
 
 
 def indices_of_features(arr, k):

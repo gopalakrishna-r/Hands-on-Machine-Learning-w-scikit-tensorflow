@@ -1,7 +1,8 @@
-import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 import sklearn.linear_model
+
 from util import MLUtil
 
 # load the data

@@ -1,9 +1,8 @@
 from scipy.stats import reciprocal, expon
-from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import StratifiedShuffleSplit, RandomizedSearchCV
 from sklearn.model_selection import train_test_split
-from sklearn.svm import SVC, SVR
 
+from util.DataLoader import fetch_housing_data
 from util.MLUtil import *
 from util.MLUtil import build_transformer
 

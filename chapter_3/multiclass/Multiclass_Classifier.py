@@ -1,9 +1,6 @@
-from sklearn.datasets import fetch_openml
 import numpy as np
-from sklearn.metrics import confusion_matrix
-from sklearn.model_selection import cross_val_score, cross_val_predict
-
-from util.MLUtil import plot_precision_recall_vs_threshold, plot_digits
+from sklearn.datasets import fetch_openml
+from sklearn.model_selection import cross_val_predict
 
 mnist = fetch_openml('mnist_784', version=1)
 X,  y = mnist["data"], mnist["target"]
@@ -26,7 +23,7 @@ X_train, X_test, y_train, y_test = X[:60000] , X[60000:], y[:60000], y[60000:]
 
 from sklearn.linear_model import SGDClassifier
 
-sgd_clf = SGDClassifier(random_state=42) # trains ten binary class classifier and gets the class with highest score
+sgd_clf = SGDClassifier(random_state=42, n_jobs=10) # trains ten binary class classifier and gets the class with highest score
 sgd_clf.fit(X_train, y_train)
 print(sgd_clf.predict([some_digit]))
 

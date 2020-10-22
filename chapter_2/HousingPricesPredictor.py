@@ -5,8 +5,8 @@ import pandas as pd
 from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.model_selection import train_test_split
 
+from util.DataLoader import fetch_housing_data
 from util.MLUtil import build_transformer
-from util.MLUtil import fetch_housing_data
 from util.MLUtil import predict_with_best_model
 
 pd.set_option('display.max_columns', None)

@@ -1,9 +1,7 @@
-from sklearn.datasets import fetch_openml
 import numpy as np
+from sklearn.datasets import fetch_openml
 from sklearn.metrics import f1_score
-from sklearn.model_selection import cross_val_score, cross_val_predict
-
-from util.MLUtil import plot_precision_recall_vs_threshold
+from sklearn.model_selection import cross_val_predict
 
 mnist = fetch_openml('mnist_784', version=1)
 X,  y = mnist["data"], mnist["target"]
@@ -22,7 +20,7 @@ y_multilabel = np.c_[y_train_large, y_train_odd]
 
 from sklearn.neighbors import KNeighborsClassifier
 
-knn_clf = KNeighborsClassifier()
+knn_clf = KNeighborsClassifier( n_jobs=10)
 knn_clf.fit(X_train, y_multilabel)
 print(knn_clf.predict([some_digit]))
 

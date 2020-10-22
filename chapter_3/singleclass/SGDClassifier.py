@@ -1,15 +1,11 @@
-from sklearn.datasets import fetch_openml
 import numpy as np
+from sklearn.datasets import fetch_openml
 from sklearn.model_selection import cross_val_score
-
-from util.MLUtil import plot_precision_recall_vs_threshold
 
 mnist = fetch_openml('mnist_784', version=1)
 X,  y = mnist["data"], mnist["target"]
 
 # display a feature instance
-import matplotlib as mpl
-import matplotlib.pyplot as plt
 
 some_digit = X[0]
 some_digit_image = some_digit.reshape(28,28)
@@ -29,7 +25,7 @@ y_test_5 = (y_test == 5)
 
 from sklearn.linear_model import SGDClassifier
 
-sgd_clf = SGDClassifier(random_state=42)
+sgd_clf = SGDClassifier(random_state=42, n_jobs=10)
 sgd_clf.fit(X_train, y_train_5)
 
 print(cross_val_score(sgd_clf,X_train, y_train_5, cv= 5 , scoring="accuracy"))

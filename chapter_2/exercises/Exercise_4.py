@@ -2,10 +2,9 @@ from scipy.stats import reciprocal, expon
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import StratifiedShuffleSplit, GridSearchCV, RandomizedSearchCV
 from sklearn.model_selection import train_test_split
-from sklearn.svm import SVR
 
+from util.DataLoader import fetch_housing_data
 from util.MLUtil import *
-from util.TopFeatureSelector import indices_of_features
 
 pd.set_option('display.max_columns', None)
 
