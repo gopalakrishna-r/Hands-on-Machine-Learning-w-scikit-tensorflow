@@ -199,6 +199,4 @@ final_model = grid_search.best_estimator_
 X_test = strat_test_set.drop("median_house_value", axis=1)
 y_test = strat_test_set["median_house_value"].copy()
 
-print(f"performance stat {predict_with_best_model(X_test,y_test,full_pipeline, final_model)}")
-
-
+print(f"performance stat {predict_with_best_model(X_test, y_test, full_pipeline, final_model)}")

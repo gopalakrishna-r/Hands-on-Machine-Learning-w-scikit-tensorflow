@@ -26,5 +26,5 @@ model = sklearn.linear_model.LinearRegression()
 model.fit(X, y)
 
 # Make a prediction for Cyprus
-X_new = [[22587]] #Cyprus' GDP per capita
+X_new = [[22587]]  # Cyprus' GDP per capita
 print(model.predict(X_new))  # outputs [[ 5.96242338]]

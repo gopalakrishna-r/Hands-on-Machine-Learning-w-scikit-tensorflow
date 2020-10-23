@@ -6,6 +6,7 @@ import pandas as pd
 
 DOWNLOAD_ROOT = "https://github.com/ageron/handson-ml2/raw/master/"
 
+
 def fetch_gdp_life_satisfaction_data(datapath):
     os.makedirs(datapath, exist_ok=True)
     csv_li = "oecd_bli_2015.csv"
@@ -14,11 +15,14 @@ def fetch_gdp_life_satisfaction_data(datapath):
     urllib.request.urlretrieve(DOWNLOAD_ROOT + "datasets/lifesat/" + csv_li, datapath + csv_li)
     urllib.request.urlretrieve(DOWNLOAD_ROOT + "datasets/lifesat/" + csv_gdp, datapath + csv_li)
 
-TITANIC_PATH = os.path.join("..","..","datasets", "titanic-kaggle")
 
-def fetch_titanic_data(file,titanic_data_path = TITANIC_PATH) :
+TITANIC_PATH = os.path.join("..", "..", "datasets", "titanic-kaggle")
+
+
+def fetch_titanic_data(file, titanic_data_path=TITANIC_PATH):
     csv_path = os.path.join(titanic_data_path, file)
     return pd.read_csv(csv_path)
+
 
 def fetch_housing_data(housing_url, housing_path):
     if not os.path.isdir(housing_path):

@@ -56,8 +56,8 @@ housing_num = housing.drop("ocean_proximity", axis=1)
 
 # evaluate system on test set
 full_pipeline_with_no_model = build_transformer_with_features_model(housing_numericals=housing_num,
-                                                      top_features=None,
-                                                      feature_count=5)
+                                                                    top_features=None,
+                                                                    feature_count=5)
 
 housing_prepared = full_pipeline_with_no_model.fit_transform(housing)
 
@@ -77,10 +77,10 @@ feature_importances = grid_search.best_estimator_.feature_importances_
 print(f"best features {feature_importances}")
 
 n_grid = {
-        'kernel': ['linear', 'rbf'],
-        'C': reciprocal(20, 200000),
-        'gamma': expon(scale=1.0),
-    }
+    'kernel': ['linear', 'rbf'],
+    'C': reciprocal(20, 200000),
+    'gamma': expon(scale=1.0),
+}
 
 svm = SVR()
 
@@ -89,11 +89,11 @@ random_search = RandomizedSearchCV(svm, cv=5, n_iter=50, verbose=2,
                                    return_train_score=True, n_jobs=10)
 random_search.fit(housing_prepared, housing_labels)
 
-
 # evaluate system on test set
 full_pipeline_with_model = build_transformer_with_features_model(housing_numericals=housing_num,
                                                                  top_features=feature_importances,
-                                                                 feature_count=5,best_parameters=random_search.best_params_)
+                                                                 feature_count=5,
+                                                                 best_parameters=random_search.best_params_)
 full_pipeline_with_model.fit(housing, housing_labels)
 some_data = housing.iloc[:4]
 some_labels = housing_labels.iloc[:4]

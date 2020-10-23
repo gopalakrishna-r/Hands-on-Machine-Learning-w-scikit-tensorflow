@@ -58,10 +58,10 @@ full_pipeline = build_transformer(housing_num)
 housing_prepared = full_pipeline.fit_transform(housing)
 
 n_grid = {
-        'kernel': ['linear', 'rbf'],
-        'C': reciprocal(20, 200000),
-        'gamma': expon(scale=1.0),
-    }
+    'kernel': ['linear', 'rbf'],
+    'C': reciprocal(20, 200000),
+    'gamma': expon(scale=1.0),
+}
 
 svm = SVR()
 
@@ -70,7 +70,8 @@ random_search = RandomizedSearchCV(svm, cv=5, n_iter=50, verbose=2,
                                    return_train_score=True, n_jobs=10)
 random_search.fit(housing_prepared, housing_labels)
 
-print("best parameters out of grid search :", random_search.best_params_) # {'C': 151308.41574042197, 'gamma': 0.24624812365129908, 'kernel': 'rbf'} final prediction score 52514.959533442394
+print("best parameters out of grid search :",
+      random_search.best_params_)  # {'C': 151308.41574042197, 'gamma': 0.24624812365129908, 'kernel': 'rbf'} final prediction score 52514.959533442394
 
 # evaluate system on test set
 

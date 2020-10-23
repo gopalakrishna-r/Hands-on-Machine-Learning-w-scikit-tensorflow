@@ -8,27 +8,27 @@ from sklearn.model_selection import cross_val_score
 # weights and n_neighbors hyperparameters).
 
 mnist = fetch_openml('mnist_784', version=1)
-X,  y = mnist["data"], mnist["target"]
+X, y = mnist["data"], mnist["target"]
 
 y = y.astype(np.uint8)
 
 # splitting data
-X_train, X_test, y_train, y_test = X[:60000] , X[60000:], y[:60000], y[60000:]
+X_train, X_test, y_train, y_test = X[:60000], X[60000:], y[:60000], y[60000:]
 
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import GridSearchCV
 
-param_grid = [{'weights':['uniform', 'distance'],
-              'n_neighbors':[3, 4, 5]}]
+param_grid = [{'weights': ['uniform', 'distance'],
+               'n_neighbors': [3, 4, 5]}]
 
 knn_clf = KNeighborsClassifier()
 
-grid_search = GridSearchCV(knn_clf,param_grid, cv = 5, n_jobs=-1 ,
+grid_search = GridSearchCV(knn_clf, param_grid, cv=5, n_jobs=-1,
                            scoring='neg_mean_squared_error',
-                           return_train_score=True,verbose=3)
+                           return_train_score=True, verbose=3)
 grid_search.fit(X_train, y_train)
-print(f"best parameter values {grid_search.best_params_}") # {'n_neighbors': 4, 'weights': 'distance'}
+print(f"best parameter values {grid_search.best_params_}")  # {'n_neighbors': 4, 'weights': 'distance'}
 
 best_model = grid_search.best_estimator_
 
-print(f"accuracy {cross_val_score(best_model,X_train,y_train, cv=5, scoring='accuracy')}")
+print(f"accuracy {cross_val_score(best_model, X_train, y_train, cv=5, scoring='accuracy')}")

@@ -13,8 +13,7 @@ mpl.rc('axes', labelsize=14)
 mpl.rc('xtick', labelsize=12)
 mpl.rc('ytick', labelsize=12)
 
-
-from util.TopFeatureSelector import TopFeatureSelector
+from util.Selector import TopFeatureSelector
 
 
 def prepare_country_stats(oecd_bli, gdp_per_capita):
@@ -28,6 +27,7 @@ def prepare_country_stats(oecd_bli, gdp_per_capita):
     remove_indices = [0, 1, 6, 8, 33, 34, 35]
     keep_indices = list(set(range(36)) - set(remove_indices))
     return full_country_stats[["GDP per capita", 'Life satisfaction']].iloc[keep_indices]
+
 
 def split_train_test(data, test_ratio):
     np.random.seed(42)
@@ -126,6 +126,7 @@ def predict_with_best_model(X_test, y_test, full_pipeline, final_model):
 from sklearn.model_selection import StratifiedKFold
 from sklearn.base import clone
 
+
 def cross_val_score_wth_split(X_train, y_train, model):
     skfolds = StratifiedKFold(n_splits=3, random_state=42)
     for train_index, test_index in skfolds.split(X_train, y_train):
@@ -139,41 +140,45 @@ def cross_val_score_wth_split(X_train, y_train, model):
         y_pred = clone.predit(X_test_folds)
 
         n_correct = sum(y_pred == y_test_folds)
-        print(n_correct/len(y_pred))
+        print(n_correct / len(y_pred))
+
 
 def plot_precision_recall_vs_threshold(precisions, recalls, thresholds):
     plt.figure(figsize=(8, 4))
-    plt.plot(thresholds, precisions[:-1], "b--", label ="Precision")
-    plt.plot(thresholds, recalls[:-1], "g-", label = "Recall")
-    plt.xlabel("Threshold",fontsize = 16)
-    plt.legend(loc = "upper left", fontsize = 16)
+    plt.plot(thresholds, precisions[:-1], "b--", label="Precision")
+    plt.plot(thresholds, recalls[:-1], "g-", label="Recall")
+    plt.xlabel("Threshold", fontsize=16)
+    plt.legend(loc="upper left", fontsize=16)
     plt.ylim(0, -1)
     plt.xlim([-700000, 700000])
     plt.show()
 
+
 def plot_digits(instances, images_per_row=10, **options):
     size = 28
     images_per_row = min(len(instances), images_per_row)
-    images = [instance.reshape(size,size) for instance in instances]
+    images = [instance.reshape(size, size) for instance in instances]
     n_rows = (len(instances) - 1) // images_per_row + 1
     row_images = []
     n_empty = n_rows * images_per_row - len(instances)
     images.append(np.zeros((size, size * n_empty)))
     for row in range(n_rows):
-        rimages = images[row * images_per_row : (row + 1) * images_per_row]
+        rimages = images[row * images_per_row: (row + 1) * images_per_row]
         row_images.append(np.concatenate(rimages, axis=1))
     image = np.concatenate(row_images, axis=0)
-    plt.imshow(image, cmap = mpl.cm.binary, **options)
+    plt.imshow(image, cmap=mpl.cm.binary, **options)
     plt.axis("off")
+
 
 def plot_digit(data):
     image = data.reshape(28, 28)
-    plt.imshow(image, cmap = mpl.cm.binary,
+    plt.imshow(image, cmap=mpl.cm.binary,
                interpolation="nearest")
     plt.axis("off")
     plt.show()
 
+
 def shift_image(image, x, y):
     im = image.reshape((28, 28))
-    shifted_image = shift(im, [x, y], cval= 0, mode='constant')
+    shifted_image = shift(im, [x, y], cval=0, mode='constant')
     return shifted_image.reshape([-1])

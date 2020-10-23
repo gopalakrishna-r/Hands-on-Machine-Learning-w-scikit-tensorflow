@@ -60,18 +60,18 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.svm import SVR
 
 param_grid = [
-    {'kernel': ['linear'], 'C': [0.1, 1, 30, 100, 300,1000, 3000, 10000, 30000]},
-    {'kernel': ['rbf'], 'C': [0.1, 1, 10, 30, 100], 'gamma' : [1.0 , 0.1, 0.01]},
+    {'kernel': ['linear'], 'C': [0.1, 1, 30, 100, 300, 1000, 3000, 10000, 30000]},
+    {'kernel': ['rbf'], 'C': [0.1, 1, 10, 30, 100], 'gamma': [1.0, 0.1, 0.01]},
 ]
 
 svm = SVR()
 
 grid_search = GridSearchCV(svm, param_grid, cv=5,
-                           scoring='neg_mean_squared_error',verbose=2,
-                           return_train_score=True, n_jobs =10)
+                           scoring='neg_mean_squared_error', verbose=2,
+                           return_train_score=True, n_jobs=10)
 grid_search.fit(housing_prepared, housing_labels)
 
-print("best parameters out of grid search :", grid_search.best_params_) # {'C': 30000, 'kernel': 'linear'}
+print("best parameters out of grid search :", grid_search.best_params_)  # {'C': 30000, 'kernel': 'linear'}
 
 # cvres = grid_search.cv_results_
 # for mean_score, params in zip(cvres["mean_test_score"], cvres["params"]):
@@ -94,6 +94,4 @@ final_model = grid_search.best_estimator_
 X_test = strat_test_set.drop("median_house_value", axis=1)
 y_test = strat_test_set["median_house_value"].copy()
 
-print(f"performance stat {predict_with_best_model(X_test,y_test,full_pipeline, final_model)}")
-
-
+print(f"performance stat {predict_with_best_model(X_test, y_test, full_pipeline, final_model)}")

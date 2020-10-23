@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 
 from util.DataLoader import fetch_housing_data
 from util.MLUtil import *
-from util.TopFeatureSelector import indices_of_features
+from util.Selector import indices_of_features
 
 pd.set_option('display.max_columns', None)
 
@@ -72,7 +72,7 @@ grid_search.fit(housing_prepared, housing_labels)
 feature_importances = grid_search.best_estimator_.feature_importances_
 print(f"best features {feature_importances}")
 k = 5
-indices_of_top_features = indices_of_features(feature_importances,k)
+indices_of_top_features = indices_of_features(feature_importances, k)
 
 num_attribs = list(housing_num)
 extra_attribs = ["rooms_per_hhold", "pop_per_hhold", "bedrooms_per_room"]
@@ -90,10 +90,10 @@ full_pipeline = build_transformer_with_features_model(housing_numericals=housing
 housing_prepared = full_pipeline.fit_transform(housing)
 
 n_grid = {
-        'kernel': ['linear', 'rbf'],
-        'C': reciprocal(50000, 200000),
-        'gamma': expon(scale=1.0),
-    }
+    'kernel': ['linear', 'rbf'],
+    'C': reciprocal(50000, 200000),
+    'gamma': expon(scale=1.0),
+}
 
 svm = SVR()
 

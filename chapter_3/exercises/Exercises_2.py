@@ -9,32 +9,31 @@ from sklearn.metrics import accuracy_score
 from util.MLUtil import shift_image
 
 mnist = fetch_openml('mnist_784', version=1)
-X,  y = mnist["data"], mnist["target"]
+X, y = mnist["data"], mnist["target"]
 
 y = y.astype(np.uint8)
 
 # splitting data
-X_train, X_test, y_train, y_test = X[:60000] , X[60000:], y[:60000], y[60000:]
+X_train, X_test, y_train, y_test = X[:60000], X[60000:], y[:60000], y[60000:]
 
 X_train_aug = [image for image in X_train]
 y_train_aug = [label for label in X_train]
 
-for x, y in ((1, 0), (-1, 0), (0,1), (0, -1)):
+for x, y in ((1, 0), (-1, 0), (0, 1), (0, -1)):
     for image, label in zip(X_train_aug, y_train_aug):
         X_train_aug.append(shift_image(image, x, y))
         y_train_aug.append(label)
 
-
 shuffle_ind = np.random.permutation(len(X_train_aug))
-X_train_aug= X_train_aug[shuffle_ind]
-y_train_aug= y_train_aug[shuffle_ind]
+X_train_aug = X_train_aug[shuffle_ind]
+y_train_aug = y_train_aug[shuffle_ind]
 
 from sklearn.neighbors import KNeighborsClassifier
 
-knn_clf = KNeighborsClassifier(weights = 'distance', n_neighbors=4, n_jobs=-1) # best parameters from the first exercise
+knn_clf = KNeighborsClassifier(weights='distance', n_neighbors=4, n_jobs=-1)  # best parameters from the first exercise
 
 knn_clf.fit(X_train_aug, y_train_aug)
 
 y_pred = knn_clf.predict(X_test)
 
-print(f"accuracy {accuracy_score(y_test,y_pred )}")
+print(f"accuracy {accuracy_score(y_test, y_pred)}")
