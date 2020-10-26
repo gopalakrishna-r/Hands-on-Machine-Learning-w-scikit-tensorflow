@@ -24,6 +24,9 @@ for x, y in ((1, 0), (-1, 0), (0, 1), (0, -1)):
         X_train_aug.append(shift_image(image, x, y))
         y_train_aug.append(label)
 
+X_train_aug = np.array(X_train_aug)
+y_train_aug = y_train_aug[y_train_aug]
+
 shuffle_ind = np.random.permutation(len(X_train_aug))
 X_train_aug = X_train_aug[shuffle_ind]
 y_train_aug = y_train_aug[shuffle_ind]
