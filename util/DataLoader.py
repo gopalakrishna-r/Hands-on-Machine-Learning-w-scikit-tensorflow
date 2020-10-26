@@ -21,7 +21,7 @@ TITANIC_PATH = os.path.join("..", "..", "datasets", "titanic-kaggle")
 
 def fetch_titanic_data(file, titanic_data_path=TITANIC_PATH):
     csv_path = os.path.join(titanic_data_path, file)
-    return pd.read_csv(csv_path)
+    return pd.read_csv(csv_path, sep=r'\s*,\s*', engine='python')
 
 
 def fetch_housing_data(housing_url, housing_path):

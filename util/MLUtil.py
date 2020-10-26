@@ -13,7 +13,7 @@ mpl.rc('axes', labelsize=14)
 mpl.rc('xtick', labelsize=12)
 mpl.rc('ytick', labelsize=12)
 
-from util.Selector import TopFeatureSelector
+from util.selector.Selector import TopFeatureSelector
 
 
 def prepare_country_stats(oecd_bli, gdp_per_capita):
