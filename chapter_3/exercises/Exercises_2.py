@@ -17,15 +17,15 @@ y = y.astype(np.uint8)
 X_train, X_test, y_train, y_test = X[:60000], X[60000:], y[:60000], y[60000:]
 
 X_train_aug = [image for image in X_train]
-y_train_aug = [label for label in X_train]
+y_train_aug = [label for label in y_train]
 
-for x, y in ((1, 0), (-1, 0), (0, 1), (0, -1)):
-    for image, label in zip(X_train_aug, y_train_aug):
-        X_train_aug.append(shift_image(image, x, y))
+for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+    for image, label in zip(X_train, y_train):
+        X_train_aug.append(shift_image(image, dx, dy))
         y_train_aug.append(label)
 
 X_train_aug = np.array(X_train_aug)
-y_train_aug = y_train_aug[y_train_aug]
+y_train_aug = np.array(y_train_aug)
 
 shuffle_ind = np.random.permutation(len(X_train_aug))
 X_train_aug = X_train_aug[shuffle_ind]
