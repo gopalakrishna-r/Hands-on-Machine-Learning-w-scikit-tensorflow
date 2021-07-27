@@ -1,7 +1,6 @@
 import os
 
 from sklearn.model_selection import StratifiedShuffleSplit
-from sklearn.model_selection import train_test_split
 
 from util.DataLoader import fetch_housing_data
 from util.MLUtil import *

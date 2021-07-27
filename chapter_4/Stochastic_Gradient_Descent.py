@@ -26,3 +26,4 @@ for epoch in range(n_epochs):
 print(theta)
 
 
+

@@ -24,4 +24,4 @@ some_digit_scores = forest_clf.predict_proba([some_digit])
 print(
     f" prediction probabilities for the digit : f{some_digit_scores}  highest score :{np.argmax(some_digit_scores)}\n")
 
-print(f"accuracy {cross_val_score(forest_clf, X_train, y_train, cv=5, scoring='accuracy')}")
+pri4"accuracy {cross_val_score(forest_clf, X_train, y_train, cv=5, scoring='accuracy')}")

@@ -4,7 +4,6 @@ import numpy as np
 import pandas as pd
 from scipy.ndimage import shift
 from sklearn.impute import SimpleImputer
-from sklearn.metrics import mean_squared_error
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.svm import SVR
