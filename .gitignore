@@ -134,3 +134,6 @@ dmypy.json
 /.idea/vcs.xml
 /.idea/.gitignore
 
+chapter_10/my_keras_model.h5
+chapter_10/my_logs/
+chapter_10/my_logs/
