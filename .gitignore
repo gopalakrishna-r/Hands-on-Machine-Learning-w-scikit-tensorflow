@@ -139,3 +139,7 @@ chapter_10/my_logs/
 chapter_10/my_logs/
 chapter_10/Exercises/cifar10_logs/
 chapter_10/my_model_A.h5
+chapter_10/cifar10_log_dir
+chapter_10/Exercises/cifar10_log_dir/
+chapter_10/Exercises/cifar10_bn_model.h5
+chapter_10/Exercises/cifar10_model.h5
