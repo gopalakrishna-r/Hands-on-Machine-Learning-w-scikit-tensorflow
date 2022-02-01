@@ -154,3 +154,5 @@ chapter_10/Exercises/cifar10_model.h5
 
 chapter_10/Exercises/cifar10_model.h5
 images/
+chapter_14/logs/
+chapter_14/cifar-10-python.tar.gz
