@@ -72,38 +72,33 @@ def build_transformer(housing_numericals, cat_attribs=None):
         ('attribs_adder', CombinedAttributesAdder()),
         ('std_scaler', StandardScaler()),
     ])
-    full_pipeline = ColumnTransformer([
+    return ColumnTransformer([
         ('num', num_pipeline, num_attribs),
         ('cat', OneHotEncoder(), cat_attribs)
     ])
-    return full_pipeline
 
 
 def build_transformer_with_features_model(housing_numericals, feature_count, top_features=None, cat_attribs=None,
                                           best_parameters=None):
     pipeline = build_transformer(housing_numericals, cat_attribs)
-    if top_features is None:
-        if best_parameters is None:
-            return Pipeline([
-                ('preparation', pipeline)
-            ])
-        else:
-            return Pipeline([
-                ('preparation', pipeline),
-                ('svm_reg', SVR(best_parameters))
-            ])
-    else:
-        if best_parameters is None:
-            return Pipeline([
+    if top_features is not None:
+        return Pipeline([
                 ('preparation', pipeline),
                 ('feature_selection', TopFeatureSelector(top_features, feature_count))
-            ])
-        else:
-            return Pipeline([
+            ]) if best_parameters is None else Pipeline([
                 ('preparation', pipeline),
                 ('feature_selection', TopFeatureSelector(top_features, feature_count)),
                 ('svm_reg', SVR(**best_parameters))
             ])
+    if best_parameters is None:
+        return Pipeline([
+            ('preparation', pipeline)
+        ])
+    else:
+        return Pipeline([
+            ('preparation', pipeline),
+            ('svm_reg', SVR(best_parameters))
+        ])
 
 
 def predict_with_best_model(X_test, y_test, full_pipeline, final_model):
@@ -116,10 +111,9 @@ def predict_with_best_model(X_test, y_test, full_pipeline, final_model):
     from scipy import stats
     confidence = 0.95
     squared_errors = (final_predictions - y_test) ** 2
-    performance_stat = np.sqrt(stats.t.interval(confidence, len(squared_errors) - 1,
+    return np.sqrt(stats.t.interval(confidence, len(squared_errors) - 1,
                                                 loc=squared_errors.mean(),
                                                 scale=stats.sem(squared_errors)))
-    return performance_stat
 
 
 from sklearn.model_selection import StratifiedKFold
