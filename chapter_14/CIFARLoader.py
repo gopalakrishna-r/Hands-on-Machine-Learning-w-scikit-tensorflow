@@ -255,7 +255,6 @@ def save_cifar_fit(args, train_data_generator: ImageDataGenerator, test_data_gen
         features, labels, coarse_labels, batch_names = parse_cifar(dataset, mode)
         if mode == 'train':
             train_data_generator.fit(features)
-        if mode == 'test':
             test_data_generator.fit(features)
             
         label_count = defaultdict(int)
