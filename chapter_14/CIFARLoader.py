@@ -1,3 +1,4 @@
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tqdm import tqdm
 from PIL import Image
 from pathlib import Path
@@ -231,7 +232,7 @@ def parse_cifar(dataset, mode):
     return features, labels, coarse_labels, batch_names
 
 
-def save_cifar(args):
+def save_cifar_fit(args, imageDataGenerator:ImageDataGenerator):
     dataset = args.dataset
     output = args.output
     if dataset == 'cifar10':
@@ -249,13 +250,15 @@ def save_cifar(args):
         COARSE_LABELS_LIST = CIFAR100_SUPERCLASS_LABELS_LIST
 
     for mode in ['train', 'test']:
+        
         for label in LABELS:
             dirpath = os.path.join(output, mode, label)
             os.system("mkdir -p {}".format(dirpath))
 
-        features, labels, coarse_labels, batch_names = parse_cifar(
-            dataset, mode)
-
+        features, labels, coarse_labels, batch_names = parse_cifar(dataset, mode)
+        if mode == 'train':
+            imageDataGenerator.fit(features)
+            
         label_count = defaultdict(int)
         batch_count = defaultdict(int)
         for feature, label, coarse_label, batch_name in tqdm(zip_longest(features, labels, coarse_labels, batch_names), total=len(labels), desc="Saving {} images".format(mode)):
@@ -280,3 +283,5 @@ def save_cifar(args):
             image = Image.fromarray(feature)
             image = image.convert('RGB')
             image.save(filepath)
+    
+

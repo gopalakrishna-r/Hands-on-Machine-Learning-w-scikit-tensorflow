@@ -158,3 +158,5 @@ chapter_14/logs/
 chapter_14/cifar-10-python.tar.gz
 chapter_14/cifar10_data/train
 chapter_14/cifar10_data/test
+chapter_14/alex_net*
+cifar-10-python.tar.gz
