@@ -114,11 +114,8 @@ def unpickle(dump):
 
 def check_output_path(output):
     outputdir = Path(output)
-    if outputdir.exists():
-        logger.error(
-            "output dir `{}` already exists. Please specify a different output path".format(output))
-        sys.exit(1)
-
+    return outputdir.exists()
+        
 
 # Reference: https://stackoverflow.com/questions/37573483/progress-bar-while-download-file-over-http-with-requests/37573701
 def download_with_progress(url, filename):
@@ -232,7 +229,7 @@ def parse_cifar(dataset, mode):
     return features, labels, coarse_labels, batch_names
 
 
-def save_cifar_fit(args, imageDataGenerator:ImageDataGenerator):
+def save_cifar_fit(args, train_data_generator: ImageDataGenerator, test_data_generator: ImageDataGenerator):
     dataset = args.dataset
     output = args.output
     if dataset == 'cifar10':
@@ -257,7 +254,9 @@ def save_cifar_fit(args, imageDataGenerator:ImageDataGenerator):
 
         features, labels, coarse_labels, batch_names = parse_cifar(dataset, mode)
         if mode == 'train':
-            imageDataGenerator.fit(features)
+            train_data_generator.fit(features)
+        if mode == 'test':
+            test_data_generator.fit(features)
             
         label_count = defaultdict(int)
         batch_count = defaultdict(int)
