@@ -118,12 +118,13 @@ def check_output_path(output):
         
 
 # Reference: https://stackoverflow.com/questions/37573483/progress-bar-while-download-file-over-http-with-requests/37573701
-def download_with_progress(url, filename):
-    logger.warning("Downloading {}".format(filename))
+def download_with_progress(url, dir,  file):
+    logger.warning("Downloading {}".format(file))
     r = requests.get(url, stream=True)
     total_size = int(r.headers.get('content-length', 0))
     block_size = 1024
     wrote = 0
+    filename = dir + '/' + file
     with open(filename, 'wb') as f:
         for data in tqdm(r.iter_content(block_size), total=math.ceil(total_size//block_size), unit='KB', unit_scale=True):
             wrote += len(data)
@@ -133,24 +134,24 @@ def download_with_progress(url, filename):
         sys.exit(1)
 
 
-def download_cifar(dataset):
+def download_cifar(dataset, directory):
     if dataset == 'cifar10':
-        download_with_progress(CIFAR10_URL, CIFAR10_TAR_FILENAME)
+        download_with_progress(CIFAR10_URL, directory,  CIFAR10_TAR_FILENAME)
     elif dataset in ['cifar100', 'cifar100superclass']:
-        download_with_progress(CIFAR100_URL, CIFAR100_TAR_FILENAME)
+        download_with_progress(CIFAR100_URL, directory,  CIFAR100_TAR_FILENAME)
 
 
-def check_cifar(dataset):
+def check_cifar(dataset, output_directory):
     if dataset == 'cifar10':
-        cifar = Path(CIFAR10_TAR_FILENAME)
+        cifar = Path(output_directory + '/' + CIFAR10_TAR_FILENAME)
         md5sum = CIFAR10_TAR_MD5
     elif dataset in ['cifar100', 'cifar100superclass']:
-        cifar = Path(CIFAR100_TAR_FILENAME)
+        cifar = Path(output_directory + '/' + CIFAR100_TAR_FILENAME)
         md5sum = CIFAR100_TAR_MD5
 
     if not cifar.is_file():
         logger.warning("{} does not exists.".format(cifar))
-        download_cifar(dataset)
+        download_cifar(dataset, output_directory)
 
     cifar_md5sum = hashlib.md5(cifar.open('rb').read()).hexdigest()
     if md5sum != cifar_md5sum:
@@ -193,7 +194,7 @@ def get_datanames(dataset, mode):
             return CIFAR100_TEST_DATA_NAMES
 
 
-def parse_cifar(dataset, mode):
+def parse_cifar(output_dir, dataset, mode):
     features = []
     labels = []
     coarse_labels = []
@@ -205,7 +206,7 @@ def parse_cifar(dataset, mode):
     try:
         spinner = Spinner(prefix="Loading {} data...".format(mode))
         spinner.start()
-        tf = tarfile.open(TARFILE)
+        tf = tarfile.open(output_dir + '/' + TARFILE)
         for dataname in datanames:
             ti = tf.getmember(dataname)
             data = unpickle(tf.extractfile(ti))
@@ -247,12 +248,11 @@ def save_cifar_fit(args, train_data_generator: ImageDataGenerator, test_data_gen
         COARSE_LABELS_LIST = CIFAR100_SUPERCLASS_LABELS_LIST
 
     for mode in ['train', 'test']:
-        
         for label in LABELS:
             dirpath = os.path.join(output, mode, label)
             os.system("mkdir -p {}".format(dirpath))
 
-        features, labels, coarse_labels, batch_names = parse_cifar(dataset, mode)
+        features, labels, coarse_labels, batch_names = parse_cifar(output , dataset, mode)
         if mode == 'train':
             train_data_generator.fit(features)
             test_data_generator.fit(features)

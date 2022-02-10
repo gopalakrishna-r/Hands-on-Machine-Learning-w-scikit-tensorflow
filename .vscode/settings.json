@@ -2,5 +2,6 @@
     "jupyter.jupyterServerType": "local",
         "editor.bracketPairColorization.enabled": true,
         "editor.guides.bracketPairs":"active",
-        "editor.formatOnPaste": true
+        "editor.formatOnPaste": true,
+        "python.terminal.activateEnvInCurrentTerminal": true
 }

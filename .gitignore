@@ -155,8 +155,14 @@ chapter_10/Exercises/cifar10_model.h5
 chapter_10/Exercises/cifar10_model.h5
 images/
 chapter_14/logs/
-chapter_14/cifar-10-python.tar.gz
 chapter_14/cifar10_data/train
 chapter_14/cifar10_data/test
 chapter_14/alex_net*
+chapter_14/cifar10_logs/
+chapter_14/cifar10_logs/
+chapter_14/CIFAR/train/
+chapter_14/CIFAR/test/
+chapter_14/CIFAR/cifar-10-python.tar.gz
 cifar-10-python.tar.gz
+chapter_14/inception_net/cifar10_logs/
+chapter_14/inception_net/image_net*
