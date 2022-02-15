@@ -166,3 +166,5 @@ chapter_14/CIFAR/cifar-10-python.tar.gz
 cifar-10-python.tar.gz
 chapter_14/inception_net/cifar10_logs/
 chapter_14/inception_net/image_net*
+chapter_14/resnet/results_dir/cifar/trial*
+chapter_14/resnet/results_dir/cifar/*.json

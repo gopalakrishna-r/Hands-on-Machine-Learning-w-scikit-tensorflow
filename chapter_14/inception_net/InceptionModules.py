@@ -10,7 +10,6 @@ class InceptionStem(keras.models.Model):
         super(InceptionStem, self).__init__(name=name)
         self.conv2d_1 = Conv2d(name = "conv2d_1", filters = 64, kernel_size=(7,7), strides=2)
         self.maxpool_1 = MaxPool(name="maxpool_1", pool_size=(3, 3), strides=2)
-        self.batchNorm_1 = layer.BatchNormalization(name="batchNorm_1")
         self.conv2d_2 = Conv2d(name="conv2d_2", filters=64,kernel_size=(1, 1), strides=1)
         self.conv2d_3 = Conv2d(name="conv2d_3", filters=192,kernel_size=(3, 3), strides=1)
         self.maxpool_2 = MaxPool(name="maxpool_2", pool_size=(3, 3), strides=2)
@@ -61,7 +60,6 @@ class InceptionStem(keras.models.Model):
     def call(self, x):
         x = self.conv2d_1(x)
         x = self.maxpool_1(x)
-        x = self.batchNorm_1(x)
         x = self.conv2d_2(x)
         x = self.conv2d_3(x)
         x = self.maxpool_2(x)

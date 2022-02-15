@@ -12,7 +12,6 @@ import os
 import numpy as np
 import math
 import hashlib
-from halo import Halo
 from logging import getLogger, StreamHandler, DEBUG
 logger = getLogger(__name__)
 handler = StreamHandler()
