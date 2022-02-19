@@ -168,3 +168,7 @@ chapter_14/inception_net/cifar10_logs/
 chapter_14/inception_net/image_net*
 chapter_14/resnet/results_dir/cifar/trial*
 chapter_14/resnet/results_dir/cifar/*.json
+.idea/
+chapter_14/tensorpack
+datasets/imagenette2-320.tgz
+train_log/cifar_resnet/log*
