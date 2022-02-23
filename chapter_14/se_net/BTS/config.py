@@ -1,0 +1,109 @@
+cfg = dict()
+
+cfg['batch_size']
+
+cfg['crop_coord']   =  {'x0': 42, 'y0': 29, 'z0': 2, 'x1': 194, 'y1': 221, 'z1': 146}
+
+cfg['data_dir'] = './MICCAI_BraTS_2019_Data_Training'
+
+cfg['table_data_shape'] = (cfg["crop_coord"]['z1']-cfg["crop_coord"]['z0'],
+                           cfg["crop_coord"]['y1']-cfg["crop_coord"]['y0'],
+                           cfg["crop_coord"]['x1']-cfg["crop_coord"]['x0'])
+
+cfg['data_channels'] = 4
+
+
+cfg['save_dir'] = './save'
+
+cfg['k_fold'] = 5
+
+
+"""
+k-fold cross-validation
+"""
+cfg['k_fold'] = 5
+
+
+"""
+The defualt path of saved table.
+"""
+cfg['hdf5_dir'] = './data/data.hdf5'
+
+
+"""
+The path to brain indexes of specific fold (a numpy file that was saved in ./data/ by default)
+"""
+cfg['brains_idx_dir'] = './data/fold0_idx.npy'
+
+
+"""
+'axial', 'sagittal' or 'coronal'. The 'view' has no effect in "prepare_data.py".
+All 2D slices and the model will be prepared  with respect to 'view'.
+"""
+cfg['view'] = 'axial'
+
+
+"""
+The batch size for training and validating the model
+"""
+cfg['batch_size'] = 16
+cfg['val_batch_size'] = 32
+
+
+"""
+The augmentation parameters.
+"""
+cfg['hor_flip'] = True
+cfg['ver_flip'] = True
+cfg['rotation_range'] = 0
+cfg['zoom_range'] = 0.
+
+
+"""
+The leraning rate and the number of epochs for training the model
+"""
+cfg['epochs'] = 100
+cfg['lr'] = 0.008
+
+
+"""
+If True, use process-based threading. "https://keras.io/models/model/"
+"""
+cfg['multiprocessing'] = False
+
+
+"""
+Maximum number of processes to spin up when using process-based threading. 
+If unspecified, workers will default to 1. If 0, will execute the generator 
+on the main thread. "https://keras.io/models/model/"
+"""
+cfg['workers'] = 1
+
+
+"""
+Whether to use the proposed modifid UNet or the original UNet
+"""
+cfg['modified_unet'] = True
+
+
+"""
+The depth of the U-structure 
+"""
+cfg['levels'] = 3
+
+
+"""
+The number of channels of the first conv
+"""
+cfg['start_chs'] = 64
+
+
+"""
+If specified, before training, the model weights will be loaded from this path otherwise
+the model will be trained from scratch.
+"""
+cfg['load_model_dir'] = None
+
+
+
+

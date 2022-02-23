@@ -172,3 +172,5 @@ chapter_14/resnet/results_dir/cifar/*.json
 chapter_14/tensorpack
 datasets/imagenette2-320.tgz
 train_log/cifar_resnet/log*
+train_log/cifar_resnet/
+datasets/
