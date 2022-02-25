@@ -1,21 +1,33 @@
 cfg = dict()
 
-cfg['batch_size']
-
 cfg['crop_coord']   =  {'x0': 42, 'y0': 29, 'z0': 2, 'x1': 194, 'y1': 221, 'z1': 146}
 
-cfg['data_dir'] = './MICCAI_BraTS_2019_Data_Training'
+cfg['data_dir'] = '../../../datasets/MICCAI_BraTS_2019_Data_Training/*/*/'
 
+"""
+The final data shapes of saved table file.
+"""
 cfg['table_data_shape'] = (cfg["crop_coord"]['z1']-cfg["crop_coord"]['z0'],
                            cfg["crop_coord"]['y1']-cfg["crop_coord"]['y0'],
                            cfg["crop_coord"]['x1']-cfg["crop_coord"]['x0'])
 
+
+"""
+BraTS datasets contain 4 channels: (FLAIR, T1, T1ce, T2)
+"""
 cfg['data_channels'] = 4
 
 
-cfg['save_dir'] = './save'
+"""
+The path to save table file + k-fold files
+"""
+cfg['save_data_dir'] = '../handson-machine-learning/chapter_14/se_net/BTS/data/'
 
-cfg['k_fold'] = 5
+
+"""
+The path to save models + log files + tensorboards
+"""
+cfg['save_dir'] = '../handson-machine-learning/chapter_14/se_net/BTS/save/'
 
 
 """
@@ -27,13 +39,13 @@ cfg['k_fold'] = 5
 """
 The defualt path of saved table.
 """
-cfg['hdf5_dir'] = './data/data.hdf5'
+cfg['hdf5_dir'] = '../handson-machine-learning/chapter_14/se_net/BTS/data/data.hdf5'
 
 
 """
 The path to brain indexes of specific fold (a numpy file that was saved in ./data/ by default)
 """
-cfg['brains_idx_dir'] = './data/fold0_idx.npy'
+cfg['brains_idx_dir'] = '../handson-machine-learning/chapter_14/se_net/BTS/data/fold0_idx.npy'
 
 
 """
