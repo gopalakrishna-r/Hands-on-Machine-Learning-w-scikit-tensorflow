@@ -1,8 +1,30 @@
+
+"""
+
+The required configurations for training phase ('prepare_Data.py', 'train.py').
+
+"""
+
 cfg = dict()
 
-cfg['crop_coord']   =  {'x0': 42, 'y0': 29, 'z0': 2, 'x1': 194, 'y1': 221, 'z1': 146}
 
-cfg['data_dir'] = '../../../datasets/MICCAI_BraTS_2019_Data_Training/*/*/'
+"""
+The coordinates to crop brain volumes. For example, a brain volume with the 
+One can set the x0,x1,... by calculating none zero pixels through dataset. 
+Note that the final three shapes must be divisible by the network downscale rate.
+"""
+cfg['crop_coord'] = {'x0': 42, 'x1': 194,
+                     'y0': 29, 'y1': 221,
+                     'z0': 2,  'z1': 146}
+
+
+"""
+The path to all brain volumes (ex: suppose we have a folder 'MICCAI_BraTS_2019_Data_Training'
+that contains two HGG and LGG folders so:
+data_dir='./MICCAI_BraTS_2019_Data_Training/*/*')
+"""
+cfg['data_dir'] = '../handson-machine-learning/datasets/MICCAI_BraTS_2019_Data_Training/*/*'
+
 
 """
 The final data shapes of saved table file.
@@ -17,7 +39,7 @@ BraTS datasets contain 4 channels: (FLAIR, T1, T1ce, T2)
 """
 cfg['data_channels'] = 4
 
-
+cfg['main_dir'] = '../handson-machine-learning/chapter_14/se_net/BTS'
 """
 The path to save table file + k-fold files
 """
@@ -27,7 +49,7 @@ cfg['save_data_dir'] = '../handson-machine-learning/chapter_14/se_net/BTS/data/'
 """
 The path to save models + log files + tensorboards
 """
-cfg['save_dir'] = '../handson-machine-learning/chapter_14/se_net/BTS/save/'
+cfg['save_dir'] = './save/'
 
 
 """
@@ -115,7 +137,3 @@ If specified, before training, the model weights will be loaded from this path o
 the model will be trained from scratch.
 """
 cfg['load_model_dir'] = None
-
-
-
-

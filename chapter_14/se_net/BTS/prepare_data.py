@@ -5,7 +5,6 @@ import nibabel as nib
 from tqdm import tqdm
 from glob import glob
 from config import cfg
-from fn import _
 from functional import seq
 
 def read_brain(brain_dir, mode='train', x0=42, x1=194, y0=29, y1=221, z0=2, z1=146):
@@ -53,10 +52,10 @@ def read_brain(brain_dir, mode='train', x0=42, x1=194, y0=29, y1=221, z0=2, z1=1
     all_modalities = []
     (seq(modalities_dir).
         map(nib.load).
-        map(np.asarray(_.dataobj)).
+        map(lambda nifti_file: np.asarray(nifti_file.dataobj)).
         for_each(all_modalities.append))
 
-    brain_affine = np.asarray(nib.load(modalities_dir[-1]).dataobj).affine
+    brain_affine = nib.load(modalities_dir[-1]).affine
     all_modalities = np.array(all_modalities)
     all_modalities = np.rint(all_modalities).astype(np.int16)
     all_modalities = all_modalities[..., x0:x1, y0:y1, z0:z1]

@@ -4,8 +4,6 @@ import numpy as np
 from tensorflow.keras.utils import Sequence, to_categorical
 from functional import seq
 
-from fn import _
-
 class CustomDataGenerator(Sequence):
     def __init__(self, hdf5_file, brain_idx, batch_size = 16, view = "axial", mode = 'train', horizontal_flip = False, 
                  vertical_flip = False, rotation_range = 0, zoom_range = 0., shuffle = True):
@@ -26,12 +24,14 @@ class CustomDataGenerator(Sequence):
             ValueError(f'unknown input view => {view}')
 
         self.mode            = mode
-        self.horizontal_filp = horizontal_flip
-        self.veritcal_flip   = vertical_flip
+        self.horizontal_flip = horizontal_flip
+        self.vertical_flip   = vertical_flip
         self.rotation_range  = rotation_range
-        self.zoom_range      = zoom_range
+        self.zoom_range = [1 - zoom_range, 1 + zoom_range]
         self.shuffle         = shuffle
         self.data_shape      = tuple(np.array(self.data_storage.shape[1:])[np.array(self.view_axes)])
+        self.indexes = [(i, j)
+                        for i in self.brain_idx for j in range(self.data_shape[0])]
 
         print(f'Using {len(self.brain_idx)} out of {total_brains} brains')
         print(f'({len(self.brain_idx) * self.data_shape[0]} out of {total_brains * self.data_shape[0]} 2D slices)')
@@ -65,18 +65,18 @@ class CustomDataGenerator(Sequence):
         if self.mode == 'train' and self.shuffle:
             np.random.shuffle(self.indexes)
     
+    
+    
     def data_load_and_preprocess(self, idx):
-        slice_batch = []
-        label_batch = []
         
-        (seq(idx) 
+        slice_batch, label_batch = zip(*(seq(idx)
             .map(lambda index: (index[0], index[1])) 
-              .map(self.read_data(_[0], _[1])) 
-                .map((self.normalize_modalities(_[0]), _[1])) 
-                  .map(np.concatenate((_[0], _[1]), axis = 1)) 
-                    .map(self.apply_transform(_, self.get_random_transform())) 
-                        .map((_[..., :4], to_categorical(_[..., 4], 4))) 
-                            .for_each(lambda slice_and_label: slice_batch.append(slice_and_label[0], label_batch.append(slice_and_label[1]))))
+              .map(lambda i: self.read_data(i[0], i[1])) 
+                .map(lambda slice_and_label: (self.normalize_modalities(slice_and_label[0]), slice_and_label[1]))
+                    .map(lambda slice_and_label: np.concatenate((slice_and_label[0], slice_and_label[1]), axis= -1))
+                        .map(lambda slice_and_label: self.apply_transform(slice_and_label, self.get_random_transform()))
+                            .map(lambda slice_and_label: (slice_and_label[..., :4], to_categorical(slice_and_label[..., 4], 4)))
+                                .to_list()))
                             
         return np.array(slice_batch), np.array(label_batch)
     
@@ -114,24 +114,6 @@ class CustomDataGenerator(Sequence):
 
     
         
-    def apply_transform(self, x, transform_parameters):
-        
-        x = apply_affine_transform(x, transform_parameters.get('theta', 0),
-                                   transform_parameters.get('tx', 0),
-                                   transform_parameters.get('ty', 0),
-                                   transform_parameters.get('shear', 0),
-                                   transform_parameters.get('zx', 1),
-                                   transform_parameters.get('zy', 1),
-                                   row_axis = 0, 
-                                   col_axis = 1, 
-                                   channel_axis = 2)
-        if transform_parameters.get('flip_horizontal', False):
-            x = self.flip_axis(x, 1)
-        if transform_parameters.get('flip_vertical', False):
-            x = self.flip_axis(x, 0)
-        return x
-    
-    
     def get_random_transform(self):
 
         if self.rotation_range:
@@ -156,7 +138,7 @@ class CustomDataGenerator(Sequence):
                                 'zy': zy}
         
     
-    def apply_affine_transform(x, theta=0, tx=0, ty=0, shear=0, zx=1, zy=1,
+    def apply_affine_transform(self, x, theta=0, tx=0, ty=0, shear=0, zx=1, zy=1,
                                row_axis=0, col_axis=1, channel_axis=2, fill_mode='nearest', cval=0):
 
         transform_matrix = None
@@ -198,7 +180,7 @@ class CustomDataGenerator(Sequence):
 
         if transform_matrix is not None:
             h, w = x.shape[row_axis], x.shape[col_axis]
-            transform_matrix = transform_matrix_offset_center(
+            transform_matrix = self.transform_matrix_offset_center(
                 transform_matrix, h, w)
             x = np.rollaxis(x, channel_axis, 0)
             final_affine_matrix = transform_matrix[:2, :2]
@@ -215,6 +197,23 @@ class CustomDataGenerator(Sequence):
             x = np.rollaxis(x, 0, channel_axis + 1)
         return x
     
+    def apply_transform(self, x, transform_parameters):
+
+        x = self.apply_affine_transform(x, transform_parameters.get('theta', 0),
+                                   transform_parameters.get('tx', 0),
+                                   transform_parameters.get('ty', 0),
+                                   transform_parameters.get('shear', 0),
+                                   transform_parameters.get('zx', 1),
+                                   transform_parameters.get('zy', 1),
+                                   row_axis=0,
+                                   col_axis=1,
+                                   channel_axis=2)
+        if transform_parameters.get('flip_horizontal', False):
+            x = self.flip_axis(x, 1)
+        if transform_parameters.get('flip_vertical', False):
+            x = self.flip_axis(x, 0)
+        return x
+
     
     def transform_matrix_offset_center(matrix, x, y):
         o_x = float(x) / 2 + 0.5

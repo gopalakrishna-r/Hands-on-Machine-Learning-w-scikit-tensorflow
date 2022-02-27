@@ -5,8 +5,7 @@ from glob import glob
 from tensorflow.keras.models import load_model
 from functional import seq
 from config import cfg
-
-from fn import _
+import model
 
 def read_brain(brain_dir, mode = 'train', x0 = 42, x1= 194, y0=29, y1=221, z0=2, z1=146):
     brain_dir = os.path.normpath(brain_dir)
@@ -80,15 +79,17 @@ def save_predicted_results(prediction, brain_affine, view, output_dir, z_main = 
     
 
 if __name__ == '__main__':
-    saved_dir = './save'
-    val_data_dir = f'{saved_dir}/data/validation_data'
+    brain_index = cfg['brains_idx_dir']
+    fold = os.path.basename(brain_index)[:5]
+    main_dir = cfg['main_dir']
+    val_data_dir = f'{main_dir}/validation_data'
     view = 'axial'
-    saved_model_dir = f'{saved_dir}/savedata.hdf5'
-    saved_pred_dir = f'{saved_dir}/predictions/se_net_pred_axial_3'
+    saved_dir = os.path.join(main_dir, 'data', f'{view}_{fold}')
+    saved_model_dir = f'{saved_dir}/model.hdf5'
+    saved_pred_dir = f'{main_dir}/predictions/se_net_pred_axial_3'
     batch_size = 32
-    
     if not os.path.isdir(saved_pred_dir):
-        os.mkdir(saved_pred_dir)
+        os.makedirs(saved_pred_dir, exist_ok=True)
         
     all_brains_dir = glob(val_data_dir)
     all_brains_dir.sort()
@@ -102,7 +103,7 @@ if __name__ == '__main__':
     else:
         ValueError('unknown input view => {}'.format(view))
     
-    model = load_model(saved_model_dir, compile = False)
+    model = load_model(saved_model_dir, compile=False)
     
     for brain_dir in all_brains_dir:
         if os.path.isdir(brain_dir):
