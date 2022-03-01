@@ -24,10 +24,10 @@ def read_brain(brain_dir, mode = 'train', x0 = 42, x1= 194, y0=29, y1=221, z0=2,
     all_modalities = []
     (seq(modalities_dir).
         map(nib.load).
-        map(np.asarray(_.dataobj)).
+        map(lambda nifti_file: np.asarray(nifti_file.dataobj)).
         for_each(all_modalities.append))
 
-    brain_affine = np.asarray(nib.load(modalities_dir[-1]).dataobj).affine
+    brain_affine = nib.load(modalities_dir[-1]).affine
     all_modalities = np.array(all_modalities)
     all_modalities = np.rint(all_modalities).astype(np.int16)
     all_modalities = all_modalities[..., x0:x1, y0:y1, z0:z1]
@@ -82,7 +82,7 @@ if __name__ == '__main__':
     brain_index = cfg['brains_idx_dir']
     fold = os.path.basename(brain_index)[:5]
     main_dir = cfg['main_dir']
-    val_data_dir = f'{main_dir}/validation_data'
+    val_data_dir = cfg['data_dir']
     view = 'axial'
     saved_dir = os.path.join(main_dir, 'data', f'{view}_{fold}')
     saved_model_dir = f'{saved_dir}/model.hdf5'

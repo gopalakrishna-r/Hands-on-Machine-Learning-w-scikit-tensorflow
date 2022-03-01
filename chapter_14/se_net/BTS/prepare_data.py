@@ -119,7 +119,7 @@ def create_table(dataset_dir, table_data_shape, save_dir, crop_coordinates, data
 
     brain_names = []
     for brain_dir in tqdm(all_brains_dir):
-        all_modalities, brain_affine, brain_name = read_brain(brain_dir, mode='train', **crop_coordinates)
+        all_modalities, brain_affine, brain_name = read_brain(brain_dir, mode='validation', **crop_coordinates)
         brain    = all_modalities[..., :4]
         gt       = all_modalities[..., -1]
 
