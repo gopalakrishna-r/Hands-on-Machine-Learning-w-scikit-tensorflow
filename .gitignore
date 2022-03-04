@@ -176,3 +176,5 @@ train_log/cifar_resnet/
 datasets/
 chapter_14/se_net/BTS/data/
 chapter_14/se_net/BTS/predictions/
+images.zip
+images.json
