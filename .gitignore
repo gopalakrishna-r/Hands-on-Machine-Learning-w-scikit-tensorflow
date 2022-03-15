@@ -178,3 +178,5 @@ chapter_14/se_net/BTS/data/
 chapter_14/se_net/BTS/predictions/
 images.zip
 images.json
+*.h5
+*.zip

@@ -37,3 +37,17 @@ history = model.fit(train_set,
                     steps_per_epoch = int( 0.75 * dataset_size / batch_size), 
                     epochs=10, validation_data=valid_set, 
                     validation_steps=int(0.15 * dataset_size / batch_size))
+
+for layer in base_model.layers:
+    layer.trainable = True
+
+optimizer = tf.keras.optimizers.SGD(learning_rate=0.01, momentum=0.9, decay = 0.01)
+model.compile(optimizer=optimizer,
+              loss="sparse_categorical_crossentropy", metrics=["accuracy"])
+
+history = model.fit(train_set,
+                    steps_per_epoch=int(0.75 * dataset_size / batch_size),
+                    epochs=10, validation_data=valid_set,
+                    validation_steps=int(0.15 * dataset_size / batch_size))
+
+model.evaluate(test_set, steps=int(0.10 * dataset_size / batch_size))
